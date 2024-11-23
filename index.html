@@ -27,26 +27,11 @@
 <div id="coin"></div>
 
 <script>
-    let sites = [
-        "https://zireemilsoude.net/4/8540892",
-        "https://zireemilsoude.net/4/8552265",
-        // می‌توانید لینک‌های بیشتری اضافه کنید
-    ];
+    // بعد از نیم ثانیه، کاربر به صفحه دوم هدایت می‌شود
+    setTimeout(() => {
+        window.location.href = 'ad_page.html'; // آدرس صفحه تبلیغ را اینجا قرار دهید
+    }, 500); // 500 میلی‌ثانیه = نیم ثانیه
 
-    let currentIndex = 0;
-
-    document.getElementById('coin').onclick = function() {
-        // باز کردن سایت در پس‌زمینه
-        let newTab = window.open(sites[currentIndex], '_blank');
-
-        // بستن تب پس از ۲ ثانیه
-        setTimeout(function() {
-            newTab.close();
-        }, 2000);
-
-        // تغییر به سایت بعدی
-        currentIndex = (currentIndex + 1) % sites.length;
-    };
 </script>
 
 </body>
