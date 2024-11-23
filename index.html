@@ -4,10 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بازی سکه</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #coin {
+            width: 100px;
+            height: 100px;
+            background-color: gold;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
 <body>
-    <div class="coin" id="coin">💰</div>
-    <script src="main.js"></script>
+
+<div id="coin"></div>
+
+<script>
+    let sites = [
+        "https://zireemilsoude.net/4/8540892",
+        "https://example.com/another-site",
+        // می‌توانید لینک‌های بیشتری اضافه کنید
+    ];
+
+    let currentIndex = 0;
+
+    document.getElementById('coin').onclick = function() {
+        // باز کردن سایت در پس‌زمینه
+        let newTab = window.open(sites[currentIndex], '_blank');
+
+        // بستن تب پس از ۲ ثانیه
+        setTimeout(function() {
+            newTab.close();
+        }, 2000);
+
+        // تغییر به سایت بعدی
+        currentIndex = (currentIndex + 1) % sites.length;
+    };
+</script>
+
 </body>
 </html>
