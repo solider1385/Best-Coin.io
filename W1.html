@@ -10,16 +10,21 @@
 <body>
 <h1>hii</h1>
 <script>
-    show_8553548().then(() => {
-        // بعد از نمایش تبلیغ، نیم ثانیه صبر کنید و سپس به صفحه خود برگردید
-        setTimeout(() => {
-            // اینجا باید تابعی برای بستن تبلیغ اضافه کنید
-            // به عنوان مثال: closeAd();
-            alert('تبلیغ بسته شد و به صفحه اصلی برگشتید!');
-            // برای بازگشت به صفحه خود، می‌توانید از window.location استفاده کنید
-            window.location.href = 'index.html'; // آدرس صفحه خود را اینجا قرار دهید
-        }, 500); // 500 میلی‌ثانیه = نیم ثانیه
-    });
+    // تابع برای نمایش تبلیغ در iframe
+    function loadAd() {
+        const iframe = document.getElementById('adFrame');
+        iframe.src = '//niphaumeenses.net/vignette.min.js?data-zone=8553548&data-sdk=show_8553548'; // آدرس تبلیغ را اینجا قرار دهید
+    }
+
+    // بارگذاری تبلیغ در iframe
+    loadAd();
+
+    // بعد از نمایش تبلیغ، نیم ثانیه صبر کنید و سپس به صفحه اصلی برگردید
+    setTimeout(() => {
+        alert('تبلیغ بسته شد و به صفحه اصلی برگشتید!');
+        window.location.href = 'index.html'; // آدرس صفحه اصلی را اینجا قرار دهید
+    }, 500); // 500 میلی‌ثانیه = نیم ثانیه
+</script>
 </script>
 </body>
 </html>
