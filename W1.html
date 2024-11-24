@@ -9,22 +9,12 @@
 </head>
 <body>
 <h1>hiiii</h1>
-<script>
-    // تابع برای نمایش تبلیغ در iframe
-    function loadAd() {
-        const iframe = document.getElementById('adFrame');
-        iframe.src = '//niphaumeenses.net/vignette.min.js?data-zone=8553548&data-sdk=show_8553548'; // آدرس تبلیغ را اینجا قرار دهید
-    }
-
-    // بارگذاری تبلیغ در iframe
-    loadAd();
-
-    // بعد از نمایش تبلیغ، نیم ثانیه صبر کنید و سپس به صفحه اصلی برگردید
-    setTimeout(() => {
-        alert('تبلیغ بسته شد و به صفحه اصلی برگشتید!');
-        window.location.href = 'index.html'; // آدرس صفحه اصلی را اینجا قرار دهید
-    }, 500); // 500 میلی‌ثانیه = نیم ثانیه
-</script>
+    <script>
+show_8558931().then(() => {
+    // You need to add your user reward function here, which will be executed after the user watches the ad.
+    // For more details, please refer to the detailed instructions.
+    alert('You have seen ad ad!');
+})
 </script>
 </body>
 </html>
