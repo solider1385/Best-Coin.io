@@ -3,12 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه اصلی</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8553548' data-sdk='show_8553548'></script>
+    <title>صفحه با دکمه و iframe</title>
+    <style>
+        .green-button {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #iframe-container {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 500px;
+        }
+    </style>
 </head>
 <body>
-<h1>hiiiii</h1>
-    <script src="main.js"></script>
+
+    <button class="green-button" onclick="openIframe()">باز کردن iframe</button>
+
+    <div id="iframe-container">
+        <iframe id="my-iframe" src="" width="100%" height="100%"></iframe>
+    </div>
+
+    <script>
+        function openIframe() {
+            var iframe = document.getElementById('my-iframe');
+            iframe.src = 'https://zireemilsoude.net/4/8552265'; // لینک x را اینجا قرار دهید
+            document.getElementById('iframe-container').style.display = 'block';
+        }
+    </script>
+
 </body>
 </html>
