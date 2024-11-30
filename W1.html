@@ -50,9 +50,7 @@ window.onload = function() {
     setInterval(updateNumberDisplay, 1000);
 };
 </script>
-
-<!-- جایی که عدد نمایش داده می‌شود -->
-<div id="numberDisplay"></div>
+        
     <script>
         function openIframe() {
             var iframe = document.getElementById('my-iframe');
@@ -60,6 +58,22 @@ window.onload = function() {
             document.getElementById('iframe-container').style.display = 'none';
         }
     </script>
+
+<!-- جایی که عدد نمایش داده می‌شود -->
+<div id="numberDisplay"></div>
+
+
+<div id="iframee-container">
+        <iframe id="my-iframee" src="" width="10%" height="10%"></iframe>
+        </div>
+        <script>
+        function openIframe() {
+            var iframe = document.getElementById('my-iframee');
+            iframe.src = 'https://zireemilsoude.net/4/8552265'; // لینک x را اینجا قرار دهید
+            document.getElementById('iframee-container').style.display = 'block';
+        }
+        </script>
+
 
 </body>
 </html>
