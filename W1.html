@@ -34,11 +34,20 @@
 
     <script>
 window.onload = function() {
-    // دریافت عدد از localStorage
-    let currentNumber = parseInt(localStorage.getItem('myNumber')) || 0;
+    // تابعی برای به‌روزرسانی عدد
+    function updateNumberDisplay() {
+        // دریافت عدد از localStorage
+        let currentNumber = parseInt(localStorage.getItem('myNumber')) || 0;
 
-    // نمایش عدد در صفحه
-    document.getElementById('numberDisplay').innerText = currentNumber;
+        // نمایش عدد در صفحه
+        document.getElementById('numberDisplay').innerText = currentNumber;
+    }
+
+    // به‌روزرسانی عدد بلافاصله هنگام بارگذاری صفحه
+    updateNumberDisplay();
+
+    // به‌روزرسانی عدد هر ۱ ثانیه
+    setInterval(updateNumberDisplay, 1000);
 };
 </script>
 
