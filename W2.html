@@ -12,13 +12,19 @@
     
 
 <script>
-  
 show_8578334().then(() => {
-    // You need to add your user reward function here, which will be executed after the user watches the ad.
-    // For more details, please refer to the detailed instructions.
-    alert('You have seen ad ad!');
-})
-        
+    // پس از اتمام تبلیغ
+    alert('شما تبلیغ را مشاهده کردید!');
+
+    // دریافت عدد فعلی از localStorage
+    let currentNumber = parseInt(localStorage.getItem('myNumber')) || 0;
+
+    // افزایش عدد
+    currentNumber += 1;
+
+    // ذخیره عدد جدید در localStorage
+    localStorage.setItem('myNumber', currentNumber);
+});
 </script>
         
     </body>
