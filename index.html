@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بازی سکه</title>
+          https://telegram.org/js/telegram-web-app.js?56"></script>
+          <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
+          <script>
+            window.TelegramAdsController = new TelegramAdsController();
+            window.TelegramAdsController.initialize({
+              pubId: "953460",
+              appId: "1187",
+            });
+              const button = document.getElementById('ad-button');
+        button?.addEventListener('click', () => {
+            window.TelegramAdsController.triggerNativeNotification().then((result) => {
+                // مدیریت کلیک بر روی تبلیغ
+                console.log("تبلیغ با موفقیت نمایش داده شد:", result);
+            }).catch((result) => {
+                // مدیریت خطا یا عدم وجود تبلیغ
+                console.error("خطا در نمایش تبلیغ:", result);
+            });
+        });
+          </script>
     <style>
         body {
             display: flex;
@@ -34,6 +53,8 @@
     <a href="https://www.profitablecpmrate.com/s3h3u34p?key=fdd9c620e118b8c87b19a97b5c39681c">ok link</a>
 <br>
 <br>
+    <button id="ad-button">نمایش تبلیغ</button>
+    
         
 
 
