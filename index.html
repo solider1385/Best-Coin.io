@@ -14,12 +14,12 @@
             });
               const button = document.getElementById('ad-button');
         button?.addEventListener('click', () => {
-            window.TelegramAdsController.triggerNativeNotification().then((result) => {
+            window.TelegramAdsController.triggerNativeNotification(false).then((result) => {
                 // مدیریت کلیک بر روی تبلیغ
-                console.log("تبلیغ با موفقیت نمایش داده شد:", result);
+                alert("تبلیغ با موفقیت نمایش داده شد:", result);
             }).catch((result) => {
                 // مدیریت خطا یا عدم وجود تبلیغ
-                console.error("خطا در نمایش تبلیغ:", result);
+                alert("خطا در نمایش تبلیغ:", result);
             });
         });
           </script>
