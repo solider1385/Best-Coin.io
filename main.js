@@ -1,21 +1,10 @@
-let clickCount = 0;
-const coin = document.getElementById('coin');
-
-// لینک‌های سایت‌هایی که می‌خواهید باز کنید
-const links = [
-    "https://zireemilsoude.net/4/8540892",
-    "https://zireemilsoude.net/4/8552265"
-];
-
-coin.addEventListener('click', () => {
-    clickCount++;
-    
-    // اگر تعداد کلیک‌ها فرد باشد، لینک اول را باز کن
-    if (clickCount % 2 === 1) {
-        window.open(links[0], '_blank');
-    } 
-    // اگر تعداد کلیک‌ها زوج باشد، لینک دوم را باز کن
-    else {
-        window.open(links[1], '_blank');
-    }
-});
+const button = document.getElementById('ad-button');
+    button?.addEventListener('click', () => {
+        window.TelegramAdsController.triggerNativeNotification().then((result) => {
+            // اینجا می‌توانید پیام پاداش را به کاربر نمایش دهید
+            alert("شما تبلیغ را مشاهده کردید و پاداش خود را دریافت کردید!");
+            }).catch((result) => {
+            // در صورت بروز خطا می‌توانید اینجا پیام خطا را نمایش دهید
+            alert("مشکلی در مشاهده تبلیغ پیش آمد.");
+        });
+    });
