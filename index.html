@@ -5,15 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بازی سکه</title>
        <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-          <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
-          <script>
-            window.TelegramAdsController = new TelegramAdsController();
-            window.TelegramAdsController.initialize({
-              pubId: "953460",
-              appId: "1187",
-            });
-              
-          </script>
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
+<script>
+    window.TelegramAdsController = new TelegramAdsController();
+    window.TelegramAdsController.initialize({
+        pubId: "953460",
+        appId: "1187",
+    });
+    const button = document.getElementById('ad-button');
+    button?.addEventListener('click', () => {
+        window.TelegramAdsController.triggerNativeNotification(false).then((result) => {
+            // اینجا می‌توانید پیام پاداش را به کاربر نمایش دهید
+            alert("شما تبلیغ را مشاهده کردید و پاداش خود را دریافت کردید!");
+        }).catch((result) => {
+            // در صورت بروز خطا می‌توانید اینجا پیام خطا را نمایش دهید
+            alert("مشکلی در مشاهده تبلیغ پیش آمد.");
+        });
+    });
+</script>
+    
     <style>
         body {
             display: flex;
@@ -33,7 +43,7 @@
     </style>
 </head>
 <body>
-
+    <button id="ad-button">مشاهده تبلیغ</button>
     <br>
     
     <div id="coin"></div>
