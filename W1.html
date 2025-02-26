@@ -1,78 +1,77 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه با دکمه و iframe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <title>Earn VIP Coin</title>
+    <link rel="shortcut icon" href="https://parspng.com/wp-content/uploads/2022/07/tickpng.parspng.com-4-150x150.png" type="image/x-icon">
     <style>
-        .green-button {
-            background-color: green;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .yellow-button {
-            background-color: pink;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        body, html{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #000022;
+}
+.ms{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.md{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 1rem 1rem 0rem 0rem;
+    width: 95%;
+    height: 70%;
+    border-color: cyan;
+    border-bottom: none;
+    box-shadow: 1px 0px 10px 0px cyan inset;
+}
+.d1{
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.5rem;
+    border-radius: 0.5rem;
+    /* background-color: #fff; */
+    width: 95%;
+    height: 15%;
+}
+.d2{
+    border-radius: 0.5rem;
 
-        #iframe-container {
-            display: none;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            width: 100%;
-            height: 500px;
-        }
+    /* background-color: green; */
+    width: 95%;
+    height: 15%;
+}
     </style>
 </head>
 <body>
-    <h1>W1 page</h1>
+    <section class="ms">
+        <div class="Rval"><p id="pRv" style="font-size: 3rem;color: white;">115</p></div>
+        <div class="md">
+            <div class="d1">
 
-    <button class="green-button" onclick="openIframe()">باز کردن iframe</button>
+            </div>
+            <div class="d2">
 
-    <div id="iframe-container">
-        <iframe id="my-iframe" src="" width="100%" height="100%"></iframe>
-    </div>
+            </div>
+            <div class="d2">
+
+            </div>
+        </div>
+    </section>
 
     <script>
-window.onload = function() {
-    // تابعی برای به‌روزرسانی عدد
-    function updateNumberDisplay() {
-        // دریافت عدد از localStorage
-        let currentNumber = parseInt(localStorage.getItem('myNumber')) || 0;
-
-        // نمایش عدد در صفحه
-        document.getElementById('numberDisplay').innerText = currentNumber;
-    }
-
-    // به‌روزرسانی عدد بلافاصله هنگام بارگذاری صفحه
-    updateNumberDisplay();
-
-    // به‌روزرسانی عدد هر ۱ ثانیه
-    setInterval(updateNumberDisplay, 1000);
-};
-</script>
-        
-    <script>
-        function openIframe() {
-            var iframe = document.getElementById('my-iframe');
-            iframe.src = 'https://www.profitablecpmrate.com/s3h3u34p?key=fdd9c620e118b8c87b19a97b5c39681c'; // لینک x را اینجا قرار دهید
-            document.getElementById('iframe-container').style.display = 'block';
-        }
+        document.getElementById('pRv').innerText = localStorage.getItem('Rcoin');
     </script>
-
-<!-- جایی که عدد نمایش داده می‌شود -->
-<div id="numberDisplay"></div>
-
-
-
-
-
 </body>
 </html>
