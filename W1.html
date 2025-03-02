@@ -1,105 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-    <title>Earn VIP Coin</title>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    <link rel="shortcut icon" href="https://parspng.com/wp-content/uploads/2022/07/tickpng.parspng.com-4-150x150.png" type="image/x-icon">
-    <style>
-        body, html{
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    background-color: #000022;
-}
-.ms{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
-.md{
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    gap: 0.5rem;
-    border-radius: 1rem 1rem 0rem 0rem;
-    width: 95%;
-    height: 70%;
-    border-color: cyan;
-    border-bottom: none;
-    box-shadow: 1px 0px 10px 0px cyan inset;
-}
-.d1{
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.5rem;
-    border-radius: 0.5rem;
-    /* background-color: #fff; */
-    width: 95%;
-    height: 15%;
-}
-.d2{
-    border-radius: 0.5rem;
-
-    /* background-color: green; */
-    width: 95%;
-    height: 15%;
-}
-        .task {
-    --adsggram-task-font-size: 16px; /* min 14px */
-    --adsggram-task-icon-size: 50px; /* min 30px */
-    --adsggram-task-icon-title-gap: 15px; /* min 5px max 40px */
-    --adsggram-task-button-width: 60px; /* min 40px */
-    --adsggram-task-icon-border-radius: 8px;
-
-    display: block;
-    width: 328px;
-    padding: 8px 16px 8px 8px;
-    border-radius: 16px;
-    background-color: #1d2733;
-    font-family: Roboto;
-    color: white;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه با عدد رندوم و نمودار خطی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <section class="ms">
-        <div class="Rval"><p id="pRv" style="font-size: 3rem;color: white;">115</p></div>
-        <div class="md">
-            <div class="d1">
-            <adsgram-task data-block-id='task-8545' data-debug="true"  class="task">
-                
-   </adsgram-task>
-            </div>
-            <div class="d2">
-            <adsgram-task data-block-id='task-8546' data-debug="true"  class="task">
-                <p slot='reward' class='task__reward'>🌙 100</p>
-    <div slot='button' class='task_button'>go</div>
-    <div slot='done' class='task__button task__button_done'>done</div>
-                
-   </adsgram-task>
-            </div>
-            <div class="d2">
-       <adsgram-task data-block-id='task-8545' data-debug="true"  class="task">
-                <p slot='reward' class='task__reward'>🌙 100</p>
-    <div slot='button' class='task_button'>go</div>
-    <div slot='done' class='task__button task__button_done'>done</div>
-                
-   </adsgram-task>
-            </div>
-        </div>
-    </section>
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <div id="randomNumber" class="text-2xl mb-4"></div>
+        <canvas id="myChart" width="400" height="400" class="mb-4"></canvas>
+        <button id="generateChart" class="bg-green-500 text-white px-4 py-2 rounded">تولید عدد و نمودار رندوم</button>
+    </div>
 
     <script>
-        document.getElementById('pRv').innerText = localStorage.getItem('Rcoin');
+        const ctx = document.getElementById('myChart').getContext('2d');
+        let myChart;
+
+        function generateRandomNumber() {
+            return Math.floor(Math.random() * 9);
+        }
+
+        function createChart(randomNumber) {
+            const data = [0];
+            const labels = ['0'];
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Chart',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    animation: {
+                        duration: 2000,
+                        easing: 'linear'
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+            let currentPoint = 1;
+            const interval = setInterval(() => {
+                if (currentPoint <= randomNumber) {
+                    data.push(currentPoint);
+                    labels.push(` ${currentPoint}`);
+                    myChart.update();
+                    currentPoint++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
+
+        document.getElementById('generateChart').addEventListener('click', () => {
+            const randomNumber = generateRandomNumber();
+            document.getElementById('randomNumber').innerText = `عدد رندوم: ${randomNumber}`;
+            createChart(randomNumber);
+        });
     </script>
 </body>
 </html>
