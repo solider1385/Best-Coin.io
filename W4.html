@@ -21,8 +21,7 @@
 
   window.initCdTma?.({ id: '6062400' }).then(show => window.show = show).catch(e => console.log(e))
 </script>
-// On button click, activate the retrieved SHOW method, which will return a Promise with the ad display success result
-<button onclick="window.show?.().then(() => console.log('tma ad played')).catch(e => alert(e))">
+    <button onclick="window.show?.().then(() => console.log('tma ad played')).catch(e => alert(e))">
   onklicka
 </button>
 </body>
