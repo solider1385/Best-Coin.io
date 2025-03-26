@@ -3,66 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه تبلیغات</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- اسکریپت Telegram Web App -->
+    <title>نمایش تبلیغ</title>
     <script src="https://w.tads.me/widget.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .ad-container {
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
-    <h1>تبلیغات ما</h1>
-    
-    <div class="ad-container">
-        <div id="tads-container-395"></div>
-    </div>
-    
-    <div class="ad-container">
-        <div id="tads-container-395"></div>
-    </div>
-    
-    <div class="ad-container">
-        <div id="tads-container-395"></div>
-    </div>
+    <h1>تبلیغ خود را اینجا نمایش دهید</h1>
+    <div id="tads-container-395"></div> <!-- شناسه ویجت شما -->
+
+    <button id="btn">نمایش تبلیغ</button>
 
     <script>
         const adsNotFoundCallback = () => {
-            alert('هیچ تبلیغی برای نمایش یافت نشد');
-            // Write your code here in case we couldn't display ad
+            console.log('تبلیغی برای نمایش پیدا نشد');
+            // می‌توانید کد اضافی اینجا اضافه کنید اگر تبلیغی در دسترس نباشد
         };
 
         const adController = window.tads.init({
-            widgetId: '395', // شناسه ویجت
-            debug: false, // برای توسعه 'true' و برای تولید 'false'
+            widgetId: '395', // شناسه واقعی ویجت شما
+            debug: false, // برای توسعه 'true' و برای تولید 'false' قرار دهید
             onShowReward: (adId) => {
-                alert('تبلیغ نمایش داده شد: ' + adId);
-                // Write code here for reward user after ad showed or delete this func onShowReward
+                console.log('تبلیغ نمایش داده شد:', adId);
+                // کد اینجا اضافه کنید تا کاربر را بعد از نمایش تبلیغ پاداش دهید
             },
             onClickReward: (adId) => {
-                alert('تبلیغ کلیک شد: ' + adId);
-                // Write code for reward user after ad clicked or delete this func onClickReward
+                console.log('روی تبلیغ کلیک شد:', adId);
+                // کد اینجا اضافه کنید تا کاربر را بعد از کلیک روی تبلیغ پاداش دهید
             },
             onAdsNotFound: adsNotFoundCallback
         });
 
-        adController.loadAd()
-            .then(() => adController.showAd())
-            .catch((err) => {
-                alert('خطا: ' + err);
-                adsNotFoundCallback();
-            });
+        document.getElementById('btn').addEventListener('click', () => {
+            adController
+                .loadAd()
+                .then(() => adController.showAd())
+                .catch((result) => {
+                    console.log(result);
+                });
+        });
     </script>
 </body>
 </html>
