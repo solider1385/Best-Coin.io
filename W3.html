@@ -3,42 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نمایش تبلیغ</title>
+    <title>Your Page Title</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Insert the script in the head -->
     <script src="https://w.tads.me/widget.js"></script>
 </head>
 <body>
-    <h1>تبلیغ خود را اینجا نمایش دهید</h1>
-    <div id="tads-container-395"></div> <!-- شناسه ویجت شما -->
-
-    <button id="btn">نمایش تبلیغ</button>
-
+    
+    <!-- Insert the div in the body -->
+    <div id="tads-container-395"></div>
+    
+    <!-- Initialize the widget -->
     <script>
         const adsNotFoundCallback = () => {
-            console.log('تبلیغی برای نمایش پیدا نشد');
-            // می‌توانید کد اضافی اینجا اضافه کنید اگر تبلیغی در دسترس نباشد
+            alert('No ads found to show');
+            // Write your code here in case we couldn't display ad
         };
 
         const adController = window.tads.init({
-            widgetId: '395', // شناسه واقعی ویجت شما
-            debug: false, // برای توسعه 'true' و برای تولید 'false' قرار دهید
+            widgetId: 395, // Your actual widget ID
+            debug: false, // Use 'true' for development and 'false' for production
             onShowReward: (adId) => {
-                console.log('تبلیغ نمایش داده شد:', adId);
-                // کد اینجا اضافه کنید تا کاربر را بعد از نمایش تبلیغ پاداش دهید
+                alert('Show ad: ' + adId);
+                // Write code here for reward user after ad showed or delete this func onShowReward
             },
             onClickReward: (adId) => {
-                console.log('روی تبلیغ کلیک شد:', adId);
-                // کد اینجا اضافه کنید تا کاربر را بعد از کلیک روی تبلیغ پاداش دهید
+                alert('Click on ad: ' + adId);
+                // Write code for reward user after ad clicked or delete this func onClickReward
             },
             onAdsNotFound: adsNotFoundCallback
         });
-
+    </script>
+    
+    <!-- Insert this code where you want to render the widget -->
+    <button id="btn">Show Ad</button>
+    
+    <script>
         document.getElementById('btn').addEventListener('click', () => {
             adController
                 .loadAd()
                 .then(() => adController.showAd())
                 .catch((result) => {
-                    console.log(result);
+                    alert(result);
                 });
         });
     </script>
