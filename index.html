@@ -10,16 +10,13 @@
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/tg-ads-co-widget.min.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         const tgAds = new TGAdsWidget({
             wid: 'b4dabb4b-1355-4c18-a33d-1526f4d2be2d', 
             adFormat: 'interstitial', //adFormat values available: push-like/interstitial
-            firstAdImpressionIntervalInSeconds: 5, // by default ad will appear in 20 seconds after opening mini apps
-            
             debug: true // you can pass this parameter to debug and get TEST ad every time you make request. Do not use on production ENV :)
         });
-        tgAds.init(); // if you want to show AD in auto mode if not - do not call this method
     });
 </script>
 
@@ -302,6 +299,10 @@
 
         const button = document.getElementById('ad-button')
         button?.addEventListener('click', () => {
+            tgAds.init();
+            alert("ok2")
+            
+            
             window.TelegramAdsController.triggerNativeNotification().then((result) => {
 
                 Charg += 20;
