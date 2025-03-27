@@ -10,14 +10,12 @@
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/tg-ads-co-widget.min.js"></script>
-    <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', () => {
+<script type="text/javascript">
         const tgAds = new TGAdsWidget({
             wid: 'b4dabb4b-1355-4c18-a33d-1526f4d2be2d', 
-            adFormat: 'interstitial', //adFormat values available: push-like/interstitial
-            debug: true // you can pass this parameter to debug and get TEST ad every time you make request. Do not use on production ENV :)
-        });
-    });
+            adFormat: 'push-like', // push-like/interstitial
+          });
+         
 </script>
 
     
@@ -297,24 +295,36 @@
         let styleBtn = document.getElementById("claim-btn-green");
 
 
-        const button = document.getElementById('ad-button')
-        button?.addEventListener('click', () => {
-            tgAds.init();
-            alert("ok2")
-            
-            
-            window.TelegramAdsController.triggerNativeNotification().then((result) => {
+        
+ 
+       const button = document.getElementById('ad-button');
 
-                Charg += 20;
-                localStorage.setItem("Charg", Charg);
-
-
-            }).catch((result) => {
-
-                MenuDisplay.style.display = "flex";
-
-            });
+        button.addEventListener('click', function() {
+           alert('دکمه کلیک شد!');
+           tgAds.requestAd('interstitial');
         });
+
+
+        
+
+     //   const button = document.getElementById('ad-button')
+      //  button?.addEventListener('click', () => {
+            
+            
+            
+            
+        //    window.TelegramAdsController.triggerNativeNotification().then((result) => {
+
+          //      Charg += 20;
+       //         localStorage.setItem("Charg", Charg);
+
+
+    //        }).catch((result) => {
+
+      //          MenuDisplay.style.display = "flex";
+
+     //       });
+  //      });
         function refreshPage() {
             // بارگذاری مجدد صفحه
             location.reload();
