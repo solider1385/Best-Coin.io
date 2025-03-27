@@ -11,10 +11,15 @@
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/tg-ads-co-widget.min.js"></script>
 <script type="text/javascript">
-    let styleBtn = document.getElementById("claim-btn-green");
-    styleBtn.addEventListener('DOMContentLoaded', () => {
-        const tgAds = new TGAdsWidget({wid: 'b4dabb4b-1355-4c18-a33d-1526f4d2be2d', adFormat: 'interstitial'});
-        tgAds.init();
+    document.addEventListener('DOMContentLoaded', () => {
+        const tgAds = new TGAdsWidget({
+            wid: 'b4dabb4b-1355-4c18-a33d-1526f4d2be2d', 
+            adFormat: 'push-like', //adFormat values available: push-like/interstitial
+            firstAdImpressionIntervalInSeconds: 5, // by default ad will appear in 20 seconds after opening mini apps
+            adImpressionIntervalInSeconds: 100, // by default ad period interval is 200 seconds
+            debug: true // you can pass this parameter to debug and get TEST ad every time you make request. Do not use on production ENV :)
+        });
+        tgAds.init(); // if you want to show AD in auto mode if not - do not call this method
     });
 </script>
 
