@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>...</title>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/tg-ads-co-widget.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const tgAdsWidget = new TGAdsWidget({
+                wid: 'b4dabb4b-1355-4c18-a33d-1526f4d2be2d',
+                debug: true,
+                adFormat: 'interstitial'
+            });
+
+            document.getElementById('x').addEventListener('click', () => {
+                tgAdsWidget.requestAd('interstitial');
+            });
+
+            tgAdsWidget.on('adReceived', (adContent) => {
+                tgAdsWidget.displayAd(adContent);
+            });
+        });
+    </script>
+</head>
+<body>
+<button id="x">click</button>
+</body>
+</html>
