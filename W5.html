@@ -24,23 +24,6 @@
             });
         });
 
-        
-           document.addEventListener('DOMContentLoaded', () => {
-            const tgAdsWidget = new TGAdsWidget({
-                wid: '651029d3-3c66-463d-9d13-7ef525cda204',
-                
-                adFormat: 'interstitial'
-                //interstitial
-            });
-
-            document.getElementById('y').addEventListener('click', () => {
-                tgAdsWidget.requestAd('interstitial');
-            });
-
-            tgAdsWidget.on('adReceived', (adContent) => {
-                tgAdsWidget.displayAd(adContent);
-            });
-        });
     </script>
 </head>
 <body>
