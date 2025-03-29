@@ -23,9 +23,28 @@
                 tgAdsWidget.displayAd(adContent);
             });
         });
+
+        
+           document.addEventListener('DOMContentLoaded', () => {
+            const tgAdsWidget = new TGAdsWidget({
+                wid: '651029d3-3c66-463d-9d13-7ef525cda204',
+                
+                adFormat: 'interstitial'
+                //interstitial
+            });
+
+            document.getElementById('y').addEventListener('click', () => {
+                tgAdsWidget.requestAd('interstitial');
+            });
+
+            tgAdsWidget.on('adReceived', (adContent) => {
+                tgAdsWidget.displayAd(adContent);
+            });
+        });
     </script>
 </head>
 <body>
-<button id="x">click</button>
+<button id="x">x button</button>
+<button id="y">y button</button>
 </body>
 </html>
