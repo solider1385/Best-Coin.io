@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Display Page</title>
+    <script src="https://js.mbidadm.com/in-stream-ad-admanager/tma.js"></script>
+</head>
+
+<body>
+    <script>
+        // Initialize the advertising engine and select the SHOW method for displaying ads
+        window.initCdTma?.({ id: 2007390 }).then(show => window.show = show).catch(e => console.log(e));
+    </script>
+    
+    <!-- Button to play ads -->
+    <button onclick="window.show?.().then(() => console.log('tma ad played')).catch(e => console.log(e))">
+        Play ads
+    </button>
+</body>
+</html>
