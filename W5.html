@@ -16,8 +16,12 @@
             });
 
             document.getElementById('x').addEventListener('click', () => {
+            try {
                 tgAdsWidget.requestAd('push-like');
-            });
+            } catch (error) {
+                alert('خطا در درخواست تبلیغ: ' + error.message);
+            }
+        });
             
 
             tgAdsWidget.on('adReceived', (adContent) => {
