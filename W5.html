@@ -18,6 +18,24 @@
             document.getElementById('x').addEventListener('click', () => {
                 tgAdsWidget.requestAd('push-like');
             });
+            
+
+            tgAdsWidget.on('adReceived', (adContent) => {
+                tgAdsWidget.displayAd(adContent);
+            });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const tgAdsWidget = new TGAdsWidget({
+                wid: 'b4dabb4b-1355-4c18-a33d-1526f4d2be2d',
+                
+                adFormat: 'interstitial'
+                //interstitial
+            });
+
+            
+            document.getElementById('y').addEventListener('click', () => {
+                tgAdsWidget.requestAd('interstitial');
+            });
 
             tgAdsWidget.on('adReceived', (adContent) => {
                 tgAdsWidget.displayAd(adContent);
@@ -25,6 +43,7 @@
         });
 
     </script>
+      
 </head>
 <body>
 <button id="x">x button</button>
