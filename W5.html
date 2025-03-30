@@ -27,7 +27,7 @@
             const tgAdsWidget = new TGAdsWidget({
                 wid: '651029d3-3c66-463d-9d13-7ef525cda204',
                 
-                adFormat: 'interstitial'
+                adFormat: 'push-like'
                 //interstitial
             });
 
@@ -38,6 +38,7 @@
 
             tgAdsWidget.on('adReceived', (adContent) => {
                 tgAdsWidget.displayAd(adContent);
+                alert("cant show ad");
             });
         });
 
