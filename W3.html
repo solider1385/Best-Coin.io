@@ -33,20 +33,27 @@
             },
             onAdsNotFound: adsNotFoundCallback
         });
+          adController.loadAd()
+        .then(() => adController.showAd())
+           .catch((err) => {
+        console.log(err);
+      	adsNotFoundCallback();
+             });
     </script>
     
     <!-- Insert this code where you want to render the widget -->
-    <button id="btn">Show Ad</button>
+    <!--<button id="btn">Show Ad</button> -->
     
-    <script>
-        document.getElementById('btn').addEventListener('click', () => {
-            adController
+  <!--  <script>
+      //  document.getElementById('btn').addEventListener('click', () => {
+        //       });
+       //     adController
                 .loadAd()
                 .then(() => adController.showAd())
                 .catch((result) => {
                     alert(result);
-                });
-        });
-    </script>
+         
+       
+    </script>-->
 </body>
 </html>
