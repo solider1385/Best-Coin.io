@@ -292,25 +292,26 @@
                 </div>
 
                 <div class="Challeng-1" id="tads-container-395">
+			<div id="tads-container-395"></div>
                     
                     </div>
                 </div>
             </div>
         </section>
     </section>
-    <script>
-	const adsNotFoundCallback = () => {
+     
+<script>
+ const adsNotFoundCallback = () => {
 alert('No ads found to show');
 // Write your code here in case we couldn't display ad
-
 };
 
 const adController = window.tads.init({
 widgetId: 395,
-debug: true, // Use 'true' for development and 'false' for production
+debug: false, // Use 'true' for development and 'false' for production
 onShowReward: (adId) => {
 alert('Show ad:', adId);
-	// Write code here for reward user after ad showed or delete this func onShowReward
+ // Write code here for reward user after ad showed or delete this func onShowReward
 },
 onClickReward: (adId) => {
 alert('Click on ad:', adId);
@@ -318,14 +319,7 @@ alert('Click on ad:', adId);
 },
 onAdsNotFound: adsNotFoundCallback
 });
-
-adController.loadAd()
-.then(() => adController.showAd())
-           .catch((err) => {
-alert(err);
-	adsNotFoundCallback();
-           });
-    </script>
+</script>
     
     
     <script src="./style/todo.js"></script>
