@@ -282,19 +282,31 @@ onAdsNotFound: adsNotFoundCallback
 
     
 BtnShoed?.addEventListener('click', ()=>{
-     window.TelegramAdsController.triggerNativeNotification().then((result) =>{
+	adController.loadAd()
+           .then(() => adController.showAd())
+           .catch((err) => {
+	   //  adsNotFoundCallback();
+		   window.TelegramAdsController.triggerNativeNotification().then((result) =>{
+		     B++;
+                     LocalR = localStorage.setItem("Rcoin",B);
+                 //    plusValue += 6;
+                     localStorage.setItem('plusValue',plusValue);
+                     pluserpar.innerText=plusValue;
+		     
+                     }).catch((result)=>{
+			   alert("adnooo!!!")
+			   
+                     });
+
+	
+ //    window.TelegramAdsController.triggerNativeNotification().then((result) =>{
    //     B++;
     //    LocalR = localStorage.setItem("Rcoin",B);
     //    plusValue += 6;
    //     localStorage.setItem('plusValue',plusValue);
     //    pluserpar.innerText=plusValue;
-  }).catch((result)=>{
-	     adController.loadAd()
-           .then(() => adController.showAd())
-           .catch((err) => {
-           alert("ads noo!");
-	   adsNotFoundCallback();
-           });
+//  }).catch((result)=>{
+	     
 	     
 //	 AdController.show().then((result) => {
         //B++;
@@ -310,13 +322,13 @@ BtnShoed?.addEventListener('click', ()=>{
       //             pluserpar.innerText=plusValue;
       //         }).catch((result) => {
 
-               })
+    //           })
         
     
     //   })
     
 // });
-         });
+         
 
 
         let hallow = document.getElementById("Pluser");
