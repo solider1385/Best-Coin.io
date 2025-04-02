@@ -233,6 +233,7 @@
             </div>
 
         </section>
+	    <div id="tads-container-395" style="position: fixed; bottom: 0; left: 10px; right: 10px;"></div>
     </section>
     <!-- <script src="../styles/main-ad.js"></script> -->
     <!-- <script src="./style/charg.js"></script> -->
@@ -277,8 +278,14 @@ onAdsNotFound: adsNotFoundCallback
 
     
 BtnShoed?.addEventListener('click', ()=>{
-
-	alert("ok")
+       adController.loadAd()
+.then(() => adController.showAd())
+           .catch((err) => {
+console.log(err);
+	adsNotFoundCallback();
+           });
+	
+	
  //    window.TelegramAdsController.triggerNativeNotification().then((result) =>{
   //      B++;
   //      LocalR = localStorage.setItem("Rcoin",B);
