@@ -233,7 +233,9 @@
             </div>
 
         </section>
-	    <div id="tads-container-395" style="position: fixed; bottom: 0; left: 10px; right: 10px;"></div>
+	    <div id="tads-container-395" style="position: fixed; bottom: 20px; left: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border-radius: 10px;">
+    
+</div>
     </section>
     <!-- <script src="../styles/main-ad.js"></script> -->
     <!-- <script src="./style/charg.js"></script> -->
@@ -264,11 +266,13 @@ const adController = window.tads.init({
 widgetId: 395,
 debug: false, // Use 'true' for development and 'false' for production
 onShowReward: (adId) => {
-alert('Show ad:', adId);
+alert('Show ad:', adId);	
 	// Write code here for reward user after ad showed or delete this func onShowReward
 },
 onClickReward: (adId) => {
 alert('Click on ad:', adId);
+document.getElementById("tads-container-395")?.remove();
+
 // Write code for reward user after ad cliked or delete this func onClickReward
 },
 onAdsNotFound: adsNotFoundCallback
@@ -278,21 +282,20 @@ onAdsNotFound: adsNotFoundCallback
 
     
 BtnShoed?.addEventListener('click', ()=>{
-       adController.loadAd()
-.then(() => adController.showAd())
+     window.TelegramAdsController.triggerNativeNotification().then((result) =>{
+   //     B++;
+    //    LocalR = localStorage.setItem("Rcoin",B);
+    //    plusValue += 6;
+   //     localStorage.setItem('plusValue',plusValue);
+    //    pluserpar.innerText=plusValue;
+  }).catch((result)=>{
+	     adController.loadAd()
+           .then(() => adController.showAd())
            .catch((err) => {
-console.log(err);
-	adsNotFoundCallback();
+           alert("ads noo!");
+	   adsNotFoundCallback();
            });
-	
-	
- //    window.TelegramAdsController.triggerNativeNotification().then((result) =>{
-  //      B++;
-  //      LocalR = localStorage.setItem("Rcoin",B);
- //       plusValue += 6;
-//        localStorage.setItem('plusValue',plusValue);
- //       pluserpar.innerText=plusValue;
-//  }).catch((result)=>
+	     
 //	 AdController.show().then((result) => {
         //B++;
        // LocalR = localStorage.setItem("Rcoin",B);
@@ -307,13 +310,13 @@ console.log(err);
       //             pluserpar.innerText=plusValue;
       //         }).catch((result) => {
 
-       //        })
+               })
         
     
     //   })
     
 // });
-});
+         });
 
 
         let hallow = document.getElementById("Pluser");
