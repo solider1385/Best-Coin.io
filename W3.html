@@ -287,16 +287,18 @@ BtnShoed?.addEventListener('click', ()=>{
            .catch((err) => {
 	   //  adsNotFoundCallback();
 		   window.TelegramAdsController.triggerNativeNotification().then((result) =>{
-		     B++;
-                     LocalR = localStorage.setItem("Rcoin",B);
+		//     B++;
+               //      LocalR = localStorage.setItem("Rcoin",B);
                  //    plusValue += 6;
-                     localStorage.setItem('plusValue',plusValue);
-                     pluserpar.innerText=plusValue;
+                 //    localStorage.setItem('plusValue',plusValue);
+                 //    pluserpar.innerText=plusValue;
 		     
                      }).catch((result)=>{
 			   alert("adnooo!!!")
 			   
                      });
+              });
+	 });
 
 	
  //    window.TelegramAdsController.triggerNativeNotification().then((result) =>{
