@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad Display Page</title>
-    <script src="https://js.mbidadm.com/in-stream-ad-admanager/tma.js"></script>
+  <!--  <script src="https://js.mbidadm.com/in-stream-ad-admanager/tma.js"></script>-->
+    <script async src="https://js.mbidadm.com/static/scripts.js" data-admpid="312871"></script>
 </head>
 
 <body>
     <script>
         // Initialize the advertising engine and select the SHOW method for displaying ads
-        window.initCdTma?.({ id: 2007390 }).then(show => window.show = show).catch(e => console.log(e));
+        window.initCdTma?.({ id: 2007390 }).then(show => window.show = show).catch(e => alert(e));
     </script>
     
     <!-- Button to play ads -->
-    <button onclick="window.show?.().then(() => console.log('tma ad played')).catch(e => console.log(e))">
+    <button onclick="window.show?.().then(() => alert('tma ad played')).catch(e => alert(e))">
         Play ads
     </button>
 </body>
