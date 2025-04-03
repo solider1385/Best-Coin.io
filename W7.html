@@ -234,6 +234,7 @@
 
         </section>
 	    <div id="tads-container-404" style="position: fixed; bottom: 20px; left: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border-radius: 10px;">
+	    <div id="tads-container-405" style="position: fixed; bottom: 20px; left: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border-radius: 10px;">
             <div id="tads-container-395" style="position: fixed; bottom: 20px; left: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border-radius: 10px;">
     
 </div>
@@ -293,15 +294,15 @@ BtnShoed?.addEventListener('click', ()=>{
                        };
 
                        const adController = window.tads.init({
-                        widgetId: 395,
+                        widgetId: 405,
                         debug: false, // Use 'true' for development and 'false' for production
                         onShowReward: (adId) => {
-                        alert('Show ad2:', adId);	
+                        alert('Show ad3:', adId);	
 	                // Write code here for reward user after ad showed or delete this func onShowReward
                          },
                          onClickReward: (adId) => {
-                          alert('Click on ad2:', adId);
-                          document.getElementById("tads-container-395")?.remove();
+                          alert('Click on ad3:', adId);
+                          document.getElementById("tads-container-405")?.remove();
 
                           // Write code for reward user after ad cliked or delete this func onClickReward
                            },
@@ -310,6 +311,7 @@ BtnShoed?.addEventListener('click', ()=>{
 		            adController.loadAd()
                            .then(() => adController.showAd())
                            .catch((err) => {
+				   
 	           	   });
                    });
 	 });
