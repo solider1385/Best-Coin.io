@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best-Coin</title>
     <link rel="stylesheet" href="./style/charg.css">
-  <!--  <script src="https://sad.adsgram.ai/js/sad.min.js"></script> -->
-  <!--  <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
           <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
           <script>
             window.TelegramAdsController = new TelegramAdsController();
@@ -15,7 +15,7 @@
               pubId: "961720",
               appId: "1904",
             });
-          </script>-->
+          </script>
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
 	<script src="https://w.tads.me/widget.js"></script>
 	<style>
@@ -285,18 +285,18 @@ BtnShoed?.addEventListener('click', ()=>{
 	adController.loadAd()
            .then(() => adController.showAd())
            .catch((err) => {
-	     adsNotFoundCallback();
-		 //  window.TelegramAdsController.triggerNativeNotification().then((result) =>{
+	   //  adsNotFoundCallback();
+		   window.TelegramAdsController.triggerNativeNotification().then((result) =>{
 		//     B++;
                //      LocalR = localStorage.setItem("Rcoin",B);
                  //    plusValue += 6;
                  //    localStorage.setItem('plusValue',plusValue);
                  //    pluserpar.innerText=plusValue;
 		     
-     //                }).catch((result)=>{
-			//   alert("adnooo!!!")
+                     }).catch((result)=>{
+			   alert("adnooo!!!")
 			   
-       //              });
+                     });
               });
 	 });
 
@@ -352,4 +352,4 @@ BtnShoed?.addEventListener('click', ()=>{
     </script>
 </body>
 
-  </html>
+</html>
