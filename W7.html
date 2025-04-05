@@ -639,7 +639,7 @@ pluserpar.innerText=chargVal;
 
 	    
 	    const adsNotFoundCallback = () => {
-alert('No ads found to show');
+// alert('No ads found to show');
 // Write your code here in case we couldn't display ad
 };
 
@@ -647,11 +647,11 @@ const adController = window.tads.init({
 widgetId: 404,
 debug: false, // Use 'true' for development and 'false' for production
 onShowReward: (adId) => {
-alert('Show ad:', adId);	
+// alert('Show ad:', adId);	
 	// Write code here for reward user after ad showed or delete this func onShowReward
 },
 onClickReward: (adId) => {
-alert('Click on ad:', adId);
+// alert('Click on ad:', adId);
 document.getElementById("tads-container-404")?.remove();
 
 // Write code for reward user after ad cliked or delete this func onClickReward
@@ -671,12 +671,46 @@ BtnShoed?.addEventListener('click', ()=>{
                  //    pluserpar.innerText=plusValue;
 		     
                      }).catch((result)=>{
+     const existingElement = document.getElementById("tads-container-404");
+    
+    // اگر عنصر وجود ندارد، آن را بسازید
+    if (!existingElement) {
+        const newDiv = document.createElement("div");
+        newDiv.id = "tads-container-404";
+        newDiv.style.position = "fixed";
+        newDiv.style.bottom = "20px";
+        newDiv.style.left = "10px";
+        newDiv.style.right = "10px";
+        newDiv.style.background = "rgba(0, 0, 0, 0.5)";
+        newDiv.style.backdropFilter = "blur(10px)";
+        newDiv.style.borderRadius = "10px";
+        
+        // اضافه کردن عنصر جدید به بدنه (body) یا هر عنصر دیگری که می‌خواهید
+        document.body.appendChild(newDiv);
+       }
 		       adController.loadAd()
                       .then(() => adController.showAd())
                       .catch((err) => {
+   const existingElement = document.getElementById("tads-container-395");
+    
+    // اگر عنصر وجود ندارد، آن را بسازید
+    if (!existingElement) {
+        const newDiv = document.createElement("div");
+        newDiv.id = "tads-container-395";
+        newDiv.style.position = "fixed";
+        newDiv.style.bottom = "20px";
+        newDiv.style.left = "10px";
+        newDiv.style.right = "10px";
+        newDiv.style.background = "rgba(0, 0, 0, 0.5)";
+        newDiv.style.backdropFilter = "blur(10px)";
+        newDiv.style.borderRadius = "10px";
+        
+        // اضافه کردن عنصر جدید به بدنه (body) یا هر عنصر دیگری که می‌خواهید
+        document.body.appendChild(newDiv);
+    }
 
 		              const adsNotFoundCallback = () => {
-                         alert('No ads found to show');
+                       //  alert('No ads found to show');
                            // Write your code here in case we couldn't display ad
                            };
 
@@ -684,11 +718,11 @@ BtnShoed?.addEventListener('click', ()=>{
                            widgetId: 395,
                             debug: false, // Use 'true' for development and 'false' for production
                             onShowReward: (adId) => {
-                        alert('Show ad2:', adId);	
+                      //  alert('Show ad2:', adId);	
 	                // Write code here for reward user after ad showed or delete this func onShowReward
                          },
                          onClickReward: (adId) => {
-                          alert('Click on ad2:', adId);
+                        //  alert('Click on ad2:', adId);
                           document.getElementById("tads-container-395")?.remove();
 
                           // Write code for reward user after ad cliked or delete this func onClickReward
@@ -698,9 +732,26 @@ BtnShoed?.addEventListener('click', ()=>{
 		            adController.loadAd()
                            .then(() => adController.showAd())
                            .catch((err) => {
+   const existingElement = document.getElementById("tads-container-405");
+    
+    // اگر عنصر وجود ندارد، آن را بسازید
+    if (!existingElement) {
+        const newDiv = document.createElement("div");
+        newDiv.id = "tads-container-405";
+        newDiv.style.position = "fixed";
+        newDiv.style.bottom = "20px";
+        newDiv.style.left = "10px";
+        newDiv.style.right = "10px";
+        newDiv.style.background = "rgba(0, 0, 0, 0.5)";
+        newDiv.style.backdropFilter = "blur(10px)";
+        newDiv.style.borderRadius = "10px";
+        
+        // اضافه کردن عنصر جدید به بدنه (body) یا هر عنصر دیگری که می‌خواهید
+        document.body.appendChild(newDiv);
+    }
 
 			          	   const adsNotFoundCallback = () => {
-                                           alert('No ads found to show');
+                                         //  alert('No ads found to show');
                                           // Write your code here in case we couldn't display ad
                                            };
 
@@ -708,11 +759,11 @@ BtnShoed?.addEventListener('click', ()=>{
                                              widgetId: 405,
                                              debug: false, // Use 'true' for development and 'false' for production
                                              onShowReward: (adId) => {
-                                             alert('Show ad3:', adId);	
+                                            // alert('Show ad3:', adId);	
 	                                   // Write code here for reward user after ad showed or delete this func onShowReward
                                                },
                                                onClickReward: (adId) => {
-                                               alert('Click on ad3:', adId);
+                                              // alert('Click on ad3:', adId);
                                                document.getElementById("tads-container-405")?.remove();
 
                                               // Write code for reward user after ad cliked or delete this func onClickReward
