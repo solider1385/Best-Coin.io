@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best-Coin</title>
     <link rel="stylesheet" href="./style/charg.css">
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <script src="https://js.mbidadm.com/in-stream-ad-admanager/tma.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
           <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
           <script>
@@ -636,8 +636,9 @@ let BtnShoed = document.getElementById('Pluser')
 let chargVal = localStorage.getItem('plusValue')
 pluserpar.innerText=chargVal;
 
-
-	    
+      //mibed
+      window.initCdTma?.({ id: 2007390 }).then(show => window.show = show).catch(e => alert(e));
+    
 	    const adsNotFoundCallback = () => {
 // alert('No ads found to show');
 // Write your code here in case we couldn't display ad
@@ -773,7 +774,8 @@ BtnShoed?.addEventListener('click', ()=>{
 		                               adController.loadAd()
                                               .then(() => adController.showAd())
                                               .catch((err) => {
-				                  alert("for ads 4")
+						      window.show?.().then(() => alert('tma ad played')).catch(e => alert(e))
+				                  
 	           	                     });
 				   
 	           	            });
