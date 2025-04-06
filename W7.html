@@ -19,7 +19,7 @@
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
 	<script src="https://w.tads.me/widget.js"></script>
 	<style>
-		body, html{
+    body, html{
     margin: 0;
     padding: 0;
     width: 100%;
@@ -190,7 +190,7 @@
     opacity: 0.5; 
     transition: opacity 0.5s;
 	}
-	</style>
+</style>
     
 </head>
 
@@ -240,8 +240,8 @@
     <!-- <script src="../styles/main-ad.js"></script> -->
     <!-- <script src="./style/charg.js"></script> -->
     <script>
-        const AdController = window.Adsgram.init({ blockId: "8441" });
-        const iAdController = window.Adsgram.init({ blockId: "int-8548" });
+       // const AdController = window.Adsgram.init({ blockId: "8441" });
+     //   const iAdController = window.Adsgram.init({ blockId: "int-8548" });
         let B = localStorage.getItem('Rcoin');
 let pluserpar = document.getElementById('pluser-pareghraph');
 let spanplusvale = document.getElementById('plus-s');
@@ -256,10 +256,10 @@ let chargVal = localStorage.getItem('plusValue')
 pluserpar.innerText=chargVal;
 
       //mibed
-      window.initCdTma?.({ id: 2007390 }).then(show => window.show = show).catch(e => alert(e));
+    //  window.initCdTma?.({ id: 2007390 }).then(show => window.show = show).catch(e => alert(e));
     
 	    const adsNotFoundCallback = () => {
-// alert('No ads found to show');
+ alert('No ads found to show');
 // Write your code here in case we couldn't display ad
 };
 
@@ -267,11 +267,11 @@ const adController = window.tads.init({
 widgetId: 404,
 debug: false, // Use 'true' for development and 'false' for production
 onShowReward: (adId) => {
-// alert('Show ad:', adId);	
+	alert('Show ad:', adId);	
 	// Write code here for reward user after ad showed or delete this func onShowReward
 },
 onClickReward: (adId) => {
-// alert('Click on ad:', adId);
+ alert('Click on ad:', adId);
 document.getElementById("tads-container-404")?.remove();
 
 // Write code for reward user after ad cliked or delete this func onClickReward
@@ -330,7 +330,7 @@ BtnShoed?.addEventListener('click', ()=>{
     }
 
 		              const adsNotFoundCallback = () => {
-                       //  alert('No ads found to show');
+                         alert('No ads found to show');
                            // Write your code here in case we couldn't display ad
                            };
 
@@ -338,11 +338,11 @@ BtnShoed?.addEventListener('click', ()=>{
                            widgetId: 395,
                             debug: false, // Use 'true' for development and 'false' for production
                             onShowReward: (adId) => {
-                      //  alert('Show ad2:', adId);	
+                        alert('Show ad2:', adId);	
 	                // Write code here for reward user after ad showed or delete this func onShowReward
                          },
                          onClickReward: (adId) => {
-                        //  alert('Click on ad2:', adId);
+                          alert('Click on ad2:', adId);
                           document.getElementById("tads-container-395")?.remove();
 
                           // Write code for reward user after ad cliked or delete this func onClickReward
@@ -371,7 +371,7 @@ BtnShoed?.addEventListener('click', ()=>{
     }
 
 			          	   const adsNotFoundCallback = () => {
-                                         //  alert('No ads found to show');
+                                           alert('No ads found to show');
                                           // Write your code here in case we couldn't display ad
                                            };
 
@@ -379,11 +379,11 @@ BtnShoed?.addEventListener('click', ()=>{
                                              widgetId: 405,
                                              debug: false, // Use 'true' for development and 'false' for production
                                              onShowReward: (adId) => {
-                                            // alert('Show ad3:', adId);	
+                                             alert('Show ad3:', adId);	
 	                                   // Write code here for reward user after ad showed or delete this func onShowReward
                                                },
                                                onClickReward: (adId) => {
-                                              // alert('Click on ad3:', adId);
+                                               alert('Click on ad3:', adId);
                                                document.getElementById("tads-container-405")?.remove();
 
                                               // Write code for reward user after ad cliked or delete this func onClickReward
@@ -393,7 +393,8 @@ BtnShoed?.addEventListener('click', ()=>{
 		                               adController.loadAd()
                                               .then(() => adController.showAd())
                                               .catch((err) => {
-						      window.show?.().then(() => alert('tma ad played')).catch(e => alert(e))
+						      alert("hi")
+						     // window.show?.().then(() => alert('tma ad played')).catch(e => alert(e))
 				                  
 	           	                     });
 				   
