@@ -1,329 +1,136 @@
+<!DOCTYPE html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه با عدد رندوم و نمودار خطی</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .rounded-canvas {
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            border-top: 2px solid cyan;
-            border-left: 2px solid;
-            border-right: 2px solid;
-            border-image: linear-gradient(to bottom, cyan, green) 1;
-            border-bottom: none;
-        }
-        .random-number {
-            display: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            text-shadow: 0 4px 8px rgba(128, 0, 128, 0.5);
-            font-size: 2rem;
-        }
-        .flat-button {
-            border-radius: 0;
-            margin-top: -1px; /* To reduce the gap between canvas and button */
-        }
-        .button-group {
-            margin-top: 4px; /* Reduce the gap between the green button and the button group */
-        }
-        .active-button {
-            background-color: #6b7280; /* Lighter gray */
-            border: 1px solid white;
-        }
-        .footer {
-            background-color: #4B5563; /* Gray color */
-            width: 100%;
-            max-width: 300px; /* Match the canvas width */
-            height: 100px; /* Fixed height */
-            padding: 10px; /* Padding for content */
-            position: absolute;
-            bottom: 0; /* Stick to the bottom */
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: left; /* Align text to the left */
-            border-top: 2px solid cyan; /* Add border to the top */
-            border-top-left-radius: 20px; /* Round top-left corner */
-            border-top-right-radius: 20px; /* Round top-right corner */
-            overflow-y: auto; /* Enable scrolling if content overflows */
-        }
-        .gradient-button {
-            background: linear-gradient(to bottom, #10B981, #6B7280); /* Green to Gray */
-        }
-        .result-text {
-            color: white;
-            display: flex;
-            justify-content: space-between;
-        }
-        .timestamp {
-            color: white;
-        }
-        .score {
-            margin: 0 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>جدول اعضا از تلگرام</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #printBtn {
+      background-color: #2196F3;
+    }
+    #printBtn:hover {
+      background-color: #1976D2;
+    }
+  </style>
 </head>
-<body class="bg-black text-white flex items-center justify-center min-h-screen relative">
-    <div class="text-center">
-        <div id="randomNumber" class="text-sm m-2 random-number">0</div>
-        <div class="relative mb-0">
-            <canvas id="myChart" width="300" height="200" class="shadow-inner rounded-canvas"></canvas>
-        </div>
-        <button id="generateChart" class="bg-green-500 text-white px-4 py-2 w-full max-w-xs flat-button">Start</button>
-        <div class="flex justify-center mt-2 space-x-2 w-full max-w-xs button-group">
-            <button id="button1" class="gradient-button text-white px-4 py-2 rounded w-1/4 active-button" onclick="activateButton(this)">...&gt;14</button>
-            <button id="button2" class="gradient-button text-white px-4 py-2 rounded w-2/4" onclick="activateButton(this)">14,15,16</button>
-            <button id="button3" class="gradient-button text-white px-4 py-2 rounded w-1/4" onclick="activateButton(this)">16&lt;...</button>
-        </div>
-    </div>
-    <div class="footer" id="footer">
-    </div>
+<body>
+  <h1>2لیست اعضا</h1>
+  <table id="membersTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ردیف‌ها اینجا ساخته می‌شن -->
+    </tbody>
+  </table>
 
-    <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        let myChart;
-        let selectedButton = 'button1'; // Set the default selected button
-        let lossCount = 0;
-        let lastLossTime = null;
-        let guaranteedWins = 0;
+  <button id="saveBtn">ذخیره در مرورگر</button>
+  <button id="printBtn">چاپ</button>
 
-        function generateRandomNumber() {
-            const weightedNumbers = [11, 12, 13, 14, 15, 16, 17, 18, 19];
-            const randomIndex = Math.floor(Math.random() * weightedNumbers.length);
-            return weightedNumbers[randomIndex];
-        }
+  <script>
+    const token = "7980784710:AAHknnAJuKiomN9lG_DPPwUapLEYDju0J-w"; // اینجا توکن باتت رو بذار
+    const url = `https://api.telegram.org/bot${token}/getUpdates`;
 
-        function generateRandomNumberWithBias() {
-            const weightedNumbers = [11, 12, 13, 14, 15, 16, 17, 18, 19];
-            let biasedNumbers = [];
+    let uniqueUsers = new Map();
 
-            if (selectedButton === 'button1') {
-                biasedNumbers = weightedNumbers.filter(num => num < 14);
-            } else if (selectedButton === 'button2') {
-                biasedNumbers = weightedNumbers.filter(num => num === 14 || num === 15 || num === 16);
-            } else if (selectedButton === 'button3') {
-                biasedNumbers = weightedNumbers.filter(num => num > 16);
+    // 📌 تابع پر کردن جدول
+    function renderTable(users) {
+      const tableBody = document.querySelector("#membersTable tbody");
+      tableBody.innerHTML = ""; // پاک‌سازی قبلی
+      users.forEach((user, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>${user.first_name}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // 📌 گرفتن داده از API
+    async function loadMembers() {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.ok && data.result) {
+          data.result.forEach(update => {
+            const user = update.message?.from;
+            if (user && !uniqueUsers.has(user.id)) {
+              uniqueUsers.set(user.id, {
+                id: user.id,
+                username: user.username || "—",
+                first_name: user.first_name || "—"
+              });
             }
-
-            if (Math.random() < 0.5) {
-                return biasedNumbers[Math.floor(Math.random() * biasedNumbers.length)];
-            } else {
-                return weightedNumbers[Math.floor(Math.random() * weightedNumbers.length)];
-            }
+          });
         }
 
-        function generateGuaranteedWin() {
-            if (selectedButton === 'button1') {
-                return Math.floor(Math.random() * 13) + 1; // Random number between 1 and 13
-            } else if (selectedButton === 'button2') {
-                return Math.floor(Math.random() * 3) + 14; // Random number between 14 and 16
-            } else if (selectedButton === 'button3') {
-                return Math.floor(Math.random() * 3) + 17; // Random number between 17 and 19
-            }
-        }
+        renderTable(Array.from(uniqueUsers.values()));
+      } catch (err) {
+        console.error("خطا در دریافت داده‌ها:", err);
+      }
+    }
 
-        function createChart(randomNumber) {
-            const data = [0];
-            const labels = [''];
+    // 📌 ذخیره در localStorage
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      const usersArray = Array.from(uniqueUsers.values());
+      localStorage.setItem("telegramUsers", JSON.stringify(usersArray));
+      alert("کاربران ذخیره شدند ✅");
+    });
 
-            if (myChart) {
-                myChart.destroy();
-            }
+    // 📌 چاپ جدول
+    document.getElementById("printBtn").addEventListener("click", () => {
+      window.print();
+    });
 
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2,
-                        fill: false,
-                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                        pointBorderColor: 'rgba(75, 192, 192, 1)',
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    animation: {
-                        duration: 2000,
-                        easing: 'linear'
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 1,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        },
-                        x: {
-                            display: false
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            let currentPoint = 1;
-            const interval = setInterval(() => {
-                if (currentPoint <= randomNumber) {
-                    data.push(currentPoint);
-                    labels.push('');
-                    myChart.update();
-                    const randomNumberElement = document.getElementById('randomNumber');
-                    randomNumberElement.innerText = `${currentPoint}`;
-                    document.getElementById('generateChart').innerText = `${currentPoint}`;
-                    currentPoint++;
-                    // Adjust the y-axis max value to show up to the current point
-                    myChart.options.scales.y.max = currentPoint;
-                    myChart.update();
-                } else {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('generateChart').disabled = false;
-                        document.getElementById('generateChart').classList.remove('bg-gray-500', 'cursor-not-allowed');
-                        document.getElementById('generateChart').classList.add('bg-green-500');
-                        document.getElementById('generateChart').innerText = 'Start';
-
-                        // Enable the three buttons again
-                        document.querySelectorAll('.button-group button').forEach(btn => {
-                            btn.disabled = false;
-                        });
-
-                        // Check the selected button and show alert
-                        let resultColor = '';
-                        let score = '';
-                        let isWin = false;
-                        if (selectedButton === 'button1') {
-                            if (randomNumber < 14) {
-                                resultColor = 'text-green-500';
-                                score = '+1';
-                                isWin = true;
-                            } else {
-                                resultColor = 'text-red-500';
-                                score = '-1';
-                            }
-                        } else if (selectedButton === 'button2') {
-                            if (randomNumber === 14 || randomNumber === 15 || randomNumber === 16) {
-                                resultColor = 'text-green-500';
-                                score = '+1';
-                                isWin = true;
-                            } else {
-                                resultColor = 'text-red-500';
-                                score = '-1';
-                            }
-                        } else if (selectedButton === 'button3') {
-                            if (randomNumber > 16) {
-                                resultColor = 'text-green-500';
-                                score = '+1';
-                                isWin = true;
-                            } else {
-                                resultColor = 'text-red-500';
-                                score = '-1';
-                            }
-                        }
-
-                        // Show alert with the result
-                        alert(`Random Number: ${randomNumber}`);
-
-                        // Append the new result to the top of the footer with timestamp
-                        const footer = document.getElementById('footer');
-                        const newResult = document.createElement('p');
-                        newResult.className = `result-text ${resultColor}`;
-                        const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                        newResult.innerHTML = `<span>${randomNumber}</span><span class="score">${score}</span><span class="timestamp">${currentTime}</span>`;
-                        footer.prepend(newResult); // Add the new result to the top
-
-                        // Save the result to localStorage
-                        saveResultToLocalStorage(randomNumber, score, currentTime, resultColor);
-
-                        // Update loss count and time
-                        if (!isWin) {
-                            const now = new Date();
-                            if (lastLossTime && (now - lastLossTime) < 2 * 60 * 1000) {
-                                lossCount++;
-                            } else {
-                                lossCount = 1;
-                            }
-                            lastLossTime = now;
-                        } else {
-                            lossCount = 0;
-                        }
-
-                        // Update guaranteed wins
-                        if (lossCount >= 5) {
-                            guaranteedWins = 2;
-                        } else if (guaranteedWins > 0) {
-                            guaranteedWins--;
-                        }
-
-                    }, 2000); // Additional 2 second delay
-                }
-            }, 500);
-        }
-
-        function activateButton(button) {
-            // Remove active class from all buttons
-            document.querySelectorAll('.button-group button').forEach(btn => {
-                btn.classList.remove('active-button');
-            });
-            // Add active class to the clicked button
-            button.classList.add('active-button');
-            selectedButton = button.id;
-        }
-
-        function saveResultToLocalStorage(number, score, time, color) {
-            let results = JSON.parse(localStorage.getItem('results')) || [];
-            results.unshift({ number, score, time, color });
-            if (results.length > 10) {
-                results.pop();
-            }
-            localStorage.setItem('results', JSON.stringify(results));
-        }
-
-        function loadResultsFromLocalStorage() {
-            const results = JSON.parse(localStorage.getItem('results')) || [];
-            const footer = document.getElementById('footer');
-            results.forEach(result => {
-                const newResult = document.createElement('p');
-                newResult.className = `result-text ${result.color}`;
-                newResult.innerHTML = `<span>${result.number}</span><span class="score">${result.score}</span><span class="timestamp">${result.time}</span>`;
-                footer.appendChild(newResult);
-            });
-        }
-
-        document.getElementById('generateChart').addEventListener('click', () => {
-            let randomNumber;
-            if (guaranteedWins > 0) {
-                randomNumber = generateGuaranteedWin();
-            } else if (lossCount >= 5) {
-                randomNumber = generateRandomNumberWithBias();
-            } else {
-                randomNumber = generateRandomNumber();
-            }
-            document.getElementById('randomNumber').innerText = `0`;
-            createChart(randomNumber);
-            document.getElementById('generateChart').disabled = true;
-            document.getElementById('generateChart').classList.remove('bg-green-500');
-            document.getElementById('generateChart').classList.add('bg-gray-500', 'cursor-not-allowed');
-            // Disable the three buttons
-            document.querySelectorAll('.button-group button').forEach(btn => {
-                btn.disabled = true;
-            });
-        });
-
-        // Load results from localStorage on page load
-        window.onload = loadResultsFromLocalStorage;
-    </script>
+    // 📌 وقتی صفحه لود شد: اول از localStorage بخونه
+    window.onload = () => {
+      const saved = localStorage.getItem("telegramUsers");
+      if (saved) {
+        const usersArray = JSON.parse(saved);
+        usersArray.forEach(u => uniqueUsers.set(u.id, u));
+        renderTable(usersArray);
+      } else {
+        loadMembers();
+      }
+    };
+  </script>
 </body>
 </html>
