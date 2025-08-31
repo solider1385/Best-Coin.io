@@ -2,22 +2,66 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>Telegram Mini App</title>
+  <title>اطلاعات کاربر تلگرام</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Vazirmatn, sans-serif;
+      background: #f7f7f7;
+      text-align: center;
+      padding: 30px;
+      direction: rtl;
+    }
+    h1 {
+      color: #0088cc;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: white;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: right;
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-  <h1>اطلاعات کاربر</h1>
-  <p id="user-info">در حال بارگذاری...</p>
+<body>
+  <h1>اطلاعات شما</h1>
+  <ul id="user-data">
+    <li>در حال بارگذاری...</li>
+  </ul>
 
   <script>
     const tg = window.Telegram.WebApp;
     const user = tg.initDataUnsafe?.user;
 
+    const list = document.getElementById("user-data");
+    list.innerHTML = "";
+
     if (user) {
-      document.getElementById("user-info").innerText = 
-        `👤 نام: ${user.first_name} ${user.last_name || ""}\n🆔 آیدی: ${user.id}`;
+      const fields = {
+        "🆔 شناسه کاربر": user.id,
+        "🤖 ربات است؟": user.is_bot,
+        "👤 نام": user.first_name,
+        "👥 نام خانوادگی": user.last_name || "—",
+        "🔗 نام کاربری": user.username || "—",
+        "🌍 زبان": user.language_code,
+        "⭐ پریمیوم": user.is_premium ? "بله" : "خیر",
+        "📩 اجازه پیام خصوصی": user.allows_write_to_pm ? "بله" : "خیر"
+      };
+
+      for (const [key, value] of Object.entries(fields)) {
+        const li = document.createElement("li");
+        li.textContent = `${key}: ${value}`;
+        list.appendChild(li);
+      }
     } else {
-      document.getElementById("user-info").innerText = "❌ اطلاعات کاربر در دسترس نیست.";
+      list.innerHTML = "<li>❌ اطلاعات کاربر در دسترس نیست.</li>";
     }
   </script>
 </body>
