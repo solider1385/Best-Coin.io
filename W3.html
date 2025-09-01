@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>The Free Pay Bot</title>
+    <title>اطلاعات کاربر تلگرام</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -37,7 +37,7 @@
 </head>
 
 <body>
-    
+
 
     <script>
 
@@ -48,16 +48,19 @@
         const tg = window.Telegram.WebApp;
         const user = tg.initDataUnsafe?.user;
 
-        if (!user) {
-            window.location.href = "https://t.me/TheFreePayBot?start=true";
-        }
+         if (!user) {
+             window.location.href = "https://t.me/TheFreePayBot?start=true";
+         }
 
 
 
 
 
 
-        const a = user.id;
+
+         const a = user.id;
+        //const a = '35455465';
+
         async function telebot() {
             let { data: telusersinfo, error } = await supabase
                 .from('telusersinfo')
@@ -67,21 +70,37 @@
             // console.log(telusersinfo);
             if (telusersinfo.length > 0) {
                 console.log('user find');
+                console.log(telusersinfo);
+
+
+                const { data, error } = await supabase
+                    .from('telusersinfo')
+                    .update({
+                        name: user.first_name,
+                        username: user.username,
+                        // point: '5',
+                        premium: user.is_premium,
+                    })
+                    .eq("id", a)
+                    .select()
+
+
+
 
                 return;
             } else {
 
                 const { data, error } = await supabase
                     .from('telusersinfo')
-                    .insert([
-                        { 
+                    .upsert([
+                        {
                             id: user.id,
                             name: user.first_name,
                             username: user.username,
-                            point: '5',
+                            // point: '5',
                             premium: user.is_premium,
                         },
-                        ])
+                    ])
                     .select()
 
                 console.log('user cant find');
