@@ -1,136 +1,53 @@
-<!DOCTYPE html>
-<html lang="fa">
+<!doctype html>
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>جدول اعضا از تلگرام</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>نمایش تبلیغ</title>
+  <script async src="https://partner.adextra.io/jt/41a51af0e1f2d1999923dfa5ed0702ee1e629a8e.js"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
+    body{
+      margin:0;
+      background:#f5f5f5;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      font-family:sans-serif;
     }
-    table {
-      width: 80%;
-      border-collapse: collapse;
-      margin: 20px auto;
+    #showAdBtn{
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      border:none;
+      font-size:20px;
+      background:#007bff;
+      color:#fff;
+      cursor:pointer;
     }
-    th, td {
-      border: 1px solid #aaa;
-      padding: 8px 12px;
-      text-align: center;
-    }
-    th {
-      background: #f0f0f0;
-    }
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    #printBtn {
-      background-color: #2196F3;
-    }
-    #printBtn:hover {
-      background-color: #1976D2;
+    #showAdBtn:hover{
+      opacity:.85;
     }
   </style>
 </head>
 <body>
-  <h1>2لیست اعضا</h1>
-  <table id="membersTable">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>ID</th>
-        <th>Username</th>
-        <th>First Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- ردیف‌ها اینجا ساخته می‌شن -->
-    </tbody>
-  </table>
 
-  <button id="saveBtn">ذخیره در مرورگر</button>
-  <button id="printBtn">چاپ</button>
+  <div id="41a51af0e1f2d1999923dfa5ed0702ee1e629a8e" style="display:none"></div>
+
+  <button id="showAdBtn">نمایش تبلیغ</button>
 
   <script>
-    const token = "7980784710:AAHknnAJuKiomN9lG_DPPwUapLEYDju0J-w"; // اینجا توکن باتت رو بذار
-    const url = `https://api.telegram.org/bot${token}/getUpdates`;
-
-    let uniqueUsers = new Map();
-
-    // 📌 تابع پر کردن جدول
-    function renderTable(users) {
-      const tableBody = document.querySelector("#membersTable tbody");
-      tableBody.innerHTML = ""; // پاک‌سازی قبلی
-      users.forEach((user, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${user.id}</td>
-          <td>${user.username}</td>
-          <td>${user.first_name}</td>
-        `;
-        tableBody.appendChild(row);
-      });
+    const onError = () => {
+      alert('❌ خطا در نمایش تبلیغ');
+    }
+    const onSuccess = () => {
+      alert('✅ تبلیغ با موفقیت نمایش داده شد');
     }
 
-    // 📌 گرفتن داده از API
-    async function loadMembers() {
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.ok && data.result) {
-          data.result.forEach(update => {
-            const user = update.message?.from;
-            if (user && !uniqueUsers.has(user.id)) {
-              uniqueUsers.set(user.id, {
-                id: user.id,
-                username: user.username || "—",
-                first_name: user.first_name || "—"
-              });
-            }
-          });
-        }
-
-        renderTable(Array.from(uniqueUsers.values()));
-      } catch (err) {
-        console.error("خطا در دریافت داده‌ها:", err);
-      }
-    }
-
-    // 📌 ذخیره در localStorage
-    document.getElementById("saveBtn").addEventListener("click", () => {
-      const usersArray = Array.from(uniqueUsers.values());
-      localStorage.setItem("telegramUsers", JSON.stringify(usersArray));
-      alert("کاربران ذخیره شدند ✅");
+    document.getElementById('showAdBtn').addEventListener('click', () => {
+      p_adextra(onSuccess, onError);
     });
-
-    // 📌 چاپ جدول
-    document.getElementById("printBtn").addEventListener("click", () => {
-      window.print();
-    });
-
-    // 📌 وقتی صفحه لود شد: اول از localStorage بخونه
-    window.onload = () => {
-      const saved = localStorage.getItem("telegramUsers");
-      if (saved) {
-        const usersArray = JSON.parse(saved);
-        usersArray.forEach(u => uniqueUsers.set(u.id, u));
-        renderTable(usersArray);
-      } else {
-        loadMembers();
-      }
-    };
   </script>
+
 </body>
 </html>
