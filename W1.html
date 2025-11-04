@@ -4,6 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>نمایش تبلیغ</title>
+  <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        const adexiumWidget = new AdexiumWidget({wid: '323af743-8933-41b7-ae16-3c9a848ed034', adFormat: 'interstitial'});
+        adexiumWidget.autoMode();
+    });
+</script>
   <script async src="https://partner.adextra.io/jt/41a51af0e1f2d1999923dfa5ed0702ee1e629a8e.js"></script>
   <style>
     body{
@@ -46,6 +55,8 @@
 
     document.getElementById('showAdBtn').addEventListener('click', () => {
       p_adextra(onSuccess, onError);
+      const adexiumWidget = new AdexiumWidget({wid: '323af743-8933-41b7-ae16-3c9a848ed034', adFormat: 'interstitial'});
+        adexiumWidget.autoMode();
     });
   </script>
 
