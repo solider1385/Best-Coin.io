@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <title>TON Connect Test</title>
-  <script src="https://unpkg.com/@tonconnect/sdk@2.0.1/dist/tonconnect-sdk.min.js"></script>
+  <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
 </head>
 <body>
 
-<button id="connectBtn">اتصال کیف پولn</button>
+<button id="connectBtn">اتصال کیف پول</button>
 
 <script>
   alert("✅ صفحه لود شد");
 
-  // --- manifest URL خودت ---
   const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
 
   let tonConnect;
   try {
-    tonConnect = new TON_CONNECT_SDK.TonConnect({ manifestUrl });
+    tonConnect = new TonConnect({ manifestUrl });
     alert("✅ TonConnect مقداردهی شد");
   } catch(e) {
     alert("❌ خطا در مقداردهی TonConnect: " + e);
@@ -27,6 +26,7 @@
     alert("🔄 دکمه اتصال زده شد");
 
     try {
+      // دریافت لیست ولت‌ها
       const wallets = await tonConnect.getWallets();
       alert("📦 wallets دریافت شد: " + wallets.length);
 
