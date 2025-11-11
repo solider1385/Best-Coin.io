@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>TON Connect Test</title>
+<meta charset="utf-8">
+<title>Ton Connect Test</title>
+
+<script src="tonconnect-sdk.min.js"></script> <!-- ← از خودت -->
 </head>
+
 <body>
+<button id="connectBtn">اتصال کیف پول</button>
 
-<button id="connectBtn">اتصال کیف پولپ</button>
-
-<script type="module">
-
-import { TonConnect } from "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js";
-
-alert("✅ SDK لود شد (module)");
+<script>
+alert("✅ صفحه لود شد");
 
 const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
 
 let tonConnect;
 
-try {
-    tonConnect = new TonConnect({ manifestUrl });
-    alert("✅ TonConnect مقداردهی شد");
-} catch(e) {
-    alert("❌ خطا در مقداردهی TonConnect: " + e);
-}
+window.onload = () => {
+    try {
+        tonConnect = new TonConnect({ manifestUrl });
+        alert("✅ TonConnect init شد");
+    } catch (e) {
+        alert("❌ init error: " + e);
+    }
+};
 
 document.getElementById("connectBtn").onclick = async () => {
 
-    alert("🔄 دکمه اتصال زده شد");
+    alert("🔄 شروع اتصال");
 
     try {
         const wallets = await tonConnect.getWallets();
-        alert("✅ Wallets دریافت شد: " + wallets.length);
+        alert("✅ ولت‌ها: " + wallets.length);
 
         if (!wallets.length) {
             alert("⚠ ولتی پیدا نشد");
@@ -39,20 +40,19 @@ document.getElementById("connectBtn").onclick = async () => {
         }
 
         const w = wallets[0];
-        alert("📌 تلاش برای اتصال: " + w.name);
+        alert(`📌 اتصال به: ${w.name}`);
 
         await tonConnect.connect({
             universalLink: w.universalLink,
             bridgeUrl: w.bridgeUrl
         });
 
-        alert("✅ اتصال انجام شد!");
+        alert("✅ اتصال موفق");
 
     } catch (err) {
         alert("❌ خطا در اتصال: " + err);
     }
 };
-
 </script>
 
 </body>
