@@ -1,86 +1,74 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>TON Connect Test</title>
+  <meta charset="UTF-8" />
+  <title>TON Connect - MiniApp</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
 </head>
 <body>
 
-<button id="connectBtn">اتصال کیف‌پول</button>
+<button id="connectBtn">اتصال کیف پول</button>
 
-<div id="transfer" style="display:none; margin-top:20px;">
-    <input id="amount" type="number" placeholder="مقدار TON" />
-    <button id="sendBtn">ارسال</button>
-</div>
+<div id="info"></div>
 
-
-<script type="module">
-import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
-
+<script>
 const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
 
-// ✅ کیف پول مقصد (عوض کن)
-const TARGET_WALLET = "UQB_6hVTqsjZmNx-69Dbn0ON8t8zy45zMF9iFqZ4DAPeJ2oi";
+// TONConnect
+const tonConnect = new TON_CONNECT.TonConnect({ manifestUrl });
 
-// ایجاد TonConnect
-const tonUI = new TonConnectUI({
-    manifestUrl
+// ✅ اتصال کیف پول
+document.getElementById("connectBtn").onclick = async () => {
+    try {
+        const wallets = await tonConnect.getWallets();
+        console.log(wallets);
+
+        // نمایش لیست Wallet‌ها با Popup تلگرام
+        Telegram.WebApp.showPopup(
+            {
+                title: "انتخاب کیف پول",
+                message: "یک کیف پول انتخاب کن",
+                buttons: wallets.map((w) => ({
+                    id: w.name,
+                    type: "default",
+                    text: w.name,
+                })),
+            },
+            async (id) => {
+                const wallet = wallets.find((w) => w.name === id);
+                if (!wallet) return;
+
+                try {
+                    await tonConnect.connect({
+                        universalLink: wallet.universalLink,
+                        bridgeUrl: wallet.bridgeUrl,
+                    });
+
+                    document.getElementById("info").innerHTML = "✅ کیف پول وصل شد!";
+                } catch (e) {
+                    console.error(e);
+                    alert("❌ خطا هنگام اتصال");
+                }
+            }
+        );
+    } catch (err) {
+        console.error(err);
+        alert("❌ مشکل هنگام دریافت کیف‌پول‌ها");
+    }
+};
+
+
+// ✅ وقتی اتصال انجام شد → نمایش آدرس
+tonConnect.onStatusChange((wallet) => {
+    if (wallet) {
+        document.getElementById("info").innerHTML = `
+            ✅ متصل شد
+            <br> <b>آدرس:</b> ${wallet.account.address}
+        `;
+    }
 });
 
-
-/* عناصر UI */
-const connectBtn = document.getElementById("connectBtn");
-const sendBtn = document.getElementById("sendBtn");
-const transferDiv = document.getElementById("transfer");
-const amountInput = document.getElementById("amount");
-
-
-//============== اتصال کیف پول (Popup) ==============
-connectBtn.onclick = async () => {
-    try {
-        await tonUI.openModal();   // ✅ پاپ‌آپ رسمی
-        tonUI.onStatusChange((wallet) => {
-            if (wallet) {
-                alert("✅ کیف‌پول با موفقیت متصل شد");
-                transferDiv.style.display = "block";
-            }
-        });
-    } catch (e) {
-        console.log("خطا:", e);
-    }
-};
-
-
-//============== ارسال تراکنش ==============
-sendBtn.onclick = async () => {
-
-    const ton = Number(amountInput.value);
-
-    if (!ton || ton <= 0) {
-        alert("❌ مقدار TON نامعتبر است");
-        return;
-    }
-
-    const nano = BigInt(Math.floor(ton * 1e9));
-
-    const tx = {
-        validUntil: Math.floor(Date.now() / 1000) + 300,
-        messages: [
-            {
-                address: TARGET_WALLET,
-                amount: nano.toString()
-            }
-        ]
-    };
-
-    try {
-        await tonUI.sendTransaction(tx);
-        alert("✅ تراکنش ارسال شد!");
-    } catch (e) {
-        console.log(e);
-        alert("❌ خطا در ارسال تراکنش");
-    }
-};
 </script>
 
 </body>
