@@ -1,79 +1,86 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<title>TON Payment</title>
+<meta charset="UTF-8" />
+<title>TON Connect Test</title>
 </head>
 <body>
 
 <button id="connectBtn">اتصال کیف‌پول</button>
 
-<div id="transferUI" style="display:none; margin-top:20px;">
-    <input id="amount" placeholder="مقدار TON" />
+<div id="transfer" style="display:none; margin-top:20px;">
+    <input id="amount" type="number" placeholder="مقدار TON" />
     <button id="sendBtn">ارسال</button>
 </div>
 
+
 <script type="module">
-import { TonConnect } from "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js";
+import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
 
-const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";   // ✅ فایل مانفیست
+const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
 
-const TARGET_ADDRESS = "UQB_6hVTqsjZmNx-69Dbn0ON8t8zy45zMF9iFqZ4DAPeJ2oi";   // ✅ اینو با آدرس مقصد عوض کن
+// ✅ کیف پول مقصد (عوض کن)
+const TARGET_WALLET = "UQB_6hVTqsjZmNx-69Dbn0ON8t8zy45zMF9iFqZ4DAPeJ2oi";
 
-const tonConnect = new TonConnect({ manifestUrl });
+// ایجاد TonConnect
+const tonUI = new TonConnectUI({
+    manifestUrl
+});
 
+
+/* عناصر UI */
 const connectBtn = document.getElementById("connectBtn");
-const transferUI = document.getElementById("transferUI");
 const sendBtn = document.getElementById("sendBtn");
+const transferDiv = document.getElementById("transfer");
 const amountInput = document.getElementById("amount");
 
 
-// =======================
-// اتصال کیف‌پول
-// =======================
+//============== اتصال کیف پول (Popup) ==============
 connectBtn.onclick = async () => {
     try {
-        await tonConnect.connectWallet();
-        alert("✅ کیف‌پول با موفقیت وصل شد!");
-        transferUI.style.display = "block";
-    } catch(e) {
-        alert("❌ خطا در اتصال");
-        console.log(e);
+        await tonUI.openModal();   // ✅ پاپ‌آپ رسمی
+        tonUI.onStatusChange((wallet) => {
+            if (wallet) {
+                alert("✅ کیف‌پول با موفقیت متصل شد");
+                transferDiv.style.display = "block";
+            }
+        });
+    } catch (e) {
+        console.log("خطا:", e);
     }
 };
 
 
-// =======================
-// ارسال تراکنش
-// =======================
+//============== ارسال تراکنش ==============
 sendBtn.onclick = async () => {
 
-    const amountTON = Number(amountInput.value);
-    if (!amountTON) {
-        alert("مقدار TON را درست وارد کنید");
+    const ton = Number(amountInput.value);
+
+    if (!ton || ton <= 0) {
+        alert("❌ مقدار TON نامعتبر است");
         return;
     }
 
-    // تبدیل TON به nanoTON
-    const nano = BigInt(Math.floor(amountTON * 1e9));
+    const nano = BigInt(Math.floor(ton * 1e9));
 
     const tx = {
         validUntil: Math.floor(Date.now() / 1000) + 300,
-        messages: [{
-            address: TARGET_ADDRESS,
-            amount: nano.toString()
-        }]
+        messages: [
+            {
+                address: TARGET_WALLET,
+                amount: nano.toString()
+            }
+        ]
     };
 
     try {
-        await tonConnect.sendTransaction(tx);
+        await tonUI.sendTransaction(tx);
         alert("✅ تراکنش ارسال شد!");
-    } catch(err) {
+    } catch (e) {
+        console.log(e);
         alert("❌ خطا در ارسال تراکنش");
-        console.log(err);
     }
 };
-
 </script>
 
 </body>
