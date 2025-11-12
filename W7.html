@@ -19,16 +19,20 @@
 </head>
 <body>
 
-<h2>اتصال کیف پول Tonkeeper</h2>
+<h2>اتصال کیف‌پول Tonkeeper</h2>
 
-<button id="connectBtn">اتصال</button>
+<button id="connectBtn">اتنصال</button>
 <br>
 <p id="wallet">آدرس کیف پول: -</p>
 <p id="balance">موجودی: -</p>
 
 
 <script type="module">
+alert("✅ JS اجرا شد!");
+
 import { TonConnect } from "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js";
+
+alert("✅ TonConnect لود شد!");
 
 const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
 
@@ -36,49 +40,69 @@ let connector;
 
 try {
     connector = new TonConnect({ manifestUrl });
+    alert("✅ TonConnect ساخته شد!");
 } catch(err) {
-    alert("خطا در ساخت TonConnect: " + err);
+    alert("❌ خطا در ساخت TonConnect: " + err);
 }
 
 document.getElementById("connectBtn").onclick = async () => {
+    alert("▶️ دکمه اتصال کلیک شد!");
+
     try {
         const wallets = await connector.getWallets();
+        alert("📦 Wallets دریافت شد = " + JSON.stringify(wallets));
+
         if (!wallets || wallets.length === 0) {
-            alert("هیچ کیف پولی یافت نشد!");
+            alert("❌ هیچ کیف پولی یافت نشد!");
             return;
         }
 
         const wallet = wallets[0];    // Tonkeeper
+        alert("🔗 تلاش برای اتصال به: " + wallet.name);
 
         await connector.connect({
             universalLink: wallet.universalLink,
             bridgeUrl: wallet.bridgeUrl
         });
 
-        alert("✅ متصل شد!");
+        alert("✅ درخواست اتصال ارسال شد!");
 
     } catch(err) {
         alert("❌ خطا در اتصال: " + err);
     }
 };
 
-/* بروزرسانی UI هنگام اتصال */
+
 connector.onStatusChange(async (walletInfo) => {
-    if (!walletInfo) return;
+    alert("🔄 onStatusChange");
+
+    if (!walletInfo) {
+        alert("⚠️ walletInfo خالی است");
+        return;
+    }
+
+    alert("✅ WalletInfo = " + JSON.stringify(walletInfo));
 
     const address = walletInfo.account.address;
     document.getElementById("wallet").textContent = "آدرس: " + address;
 
+    alert("📨 دریافت موجودی...");
+
     try {
-        // دریافت موجودی
         let res = await fetch(`https://toncenter.com/api/v2/getAddressBalance?address=${address}`);
+        alert("✅ پاسخ toncenter");
+
         let data = await res.json();
+        alert("✅ JSON toncenter = " + JSON.stringify(data));
+
         let nano = Number(data.result);
         let ton = nano / 1e9;
 
         document.getElementById("balance").textContent = "موجودی: " + ton + " TON";
+        alert("✅ موجودی: " + ton);
 
     } catch(err) {
+        alert("❌ خطا در گرفتن موجودی: " + err);
         document.getElementById("balance").textContent = "خطا!";
     }
 });
