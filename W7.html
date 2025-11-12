@@ -1,41 +1,71 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The FreePay Test</title>
-
-  <!-- لود کردن کتابخانه رسمی تلگرام -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+  <title>FreePay TON Payment</title>
+  <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
-  <h2>تست اتصال به Telegram WebApp</h2>
-  <button id="checkBtn">بررسی اتصال</button>
+<body style="font-family: sans-serif; text-align:center; margin-top:50px;">
+
+  <h2>💎 اتصال کیف پول TON</h2>
+  <button id="connect-btn">اتصال Tonkeeper</button>
+  <p id="wallet-address"></p>
+
+  <div id="transfer-box" style="display:none;">
+    <h3>ارسال TON</h3>
+    <input id="amount" type="number" placeholder="مقدار TON" step="0.1" style="padding:5px;">
+    <button id="send-btn">ارسال</button>
+  </div>
 
   <script>
-    alert("صفحه لود شد ✅");
-
-    document.getElementById("checkBtn").addEventListener("click", () => {
-      alert("دکمه زده شد 🟢");
-
-      if (window.Telegram && window.Telegram.WebApp) {
-        const tg = window.Telegram.WebApp;
-        alert("اتصال به Telegram WebApp برقرار شد 🚀");
-
-        // آماده‌سازی WebApp
-        tg.ready();
-
-        // بررسی اطلاعات کاربر
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-          const user = tg.initDataUnsafe.user;
-          alert(`کاربر شناسایی شد 👇\n\nنام: ${user.first_name}\nایدی: ${user.id}`);
-        } else {
-          alert("❌ نتونستم اطلاعات کاربر رو بخونم.\nممکنه داخل تلگرام باز نکردی!");
-        }
-      } else {
-        alert("❌ WebApp لود نشده یا صفحه خارج از تلگرام باز شده.");
-      }
+    const tonConnect = new TON_CONNECT.TonConnect({
+      manifestUrl: "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json"
     });
+
+    const connectBtn = document.getElementById("connect-btn");
+    const walletAddress = document.getElementById("wallet-address");
+    const transferBox = document.getElementById("transfer-box");
+    const sendBtn = document.getElementById("send-btn");
+
+    async function connectWallet() {
+      try {
+        alert("در حال اتصال به Tonkeeper...");
+        const connectedWallet = await tonConnect.connectWallet();
+        alert("اتصال موفق!");
+
+        walletAddress.innerText = "کیف پول متصل شد: " + connectedWallet.account.address;
+        transferBox.style.display = "block";
+      } catch (error) {
+        alert("خطا در اتصال: " + error.message);
+      }
+    }
+
+    async function sendTON() {
+      try {
+        const amount = document.getElementById("amount").value;
+        if (!amount) return alert("لطفاً مقدار را وارد کنید!");
+
+        const tx = {
+          validUntil: Math.floor(Date.now() / 1000) + 600, // معتبر تا 10 دقیقه
+          messages: [
+            {
+              address: "UQABfJXpm1D0Qm6pPutSjbEHVAWFzqvKv4BRSoFdA-5_En8Q", // آدرس دریافت‌کننده
+              amount: (parseFloat(amount) * 1e9).toString() // تبدیل به nanotons
+            }
+          ]
+        };
+
+        alert("در حال باز کردن Tonkeeper...");
+        await tonConnect.sendTransaction(tx);
+        alert("درخواست ارسال شد! لطفاً در Tonkeeper تأیید کنید.");
+      } catch (error) {
+        alert("خطا در ارسال تراکنش: " + error.message);
+      }
+    }
+
+    connectBtn.onclick = connectWallet;
+    sendBtn.onclick = sendTON;
   </script>
+
 </body>
 </html>
