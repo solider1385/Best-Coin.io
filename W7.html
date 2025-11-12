@@ -2,28 +2,28 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>FreePay - TON Connect Test</title>
-  <script src="https://ton.org/tonconnect/sdk@latest/tonconnect-sdk.min.js"></script>
+  <title>FreePay TON Connect</title>
+  <!-- ✅ نسخه رسمی TonConnect SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@2.2.0/dist/tonconnect-sdk.min.js"></script>
 </head>
-<body style="font-family:sans-serif; text-align:center; padding:30px; background:#0d1117; color:white;">
-
-  <h2>💎 اتصال به کیف پول TON</h2>
-  <button id="connectBtn" style="padding:10px 20px; border:none; border-radius:10px; background:#3b82f6; color:white;">اتصال کیف پول</button>
-
-  <div id="walletInfo" style="margin-top:20px; display:none;">
-    <p>کیف پول متصل شد ✅</p>
+<body style="font-family: sans-serif; text-align:center; background:#0d1117; color:white; padding:30px;">
+  <h2>💎 اتصال کیف پول TON</h2>
+  <button id="connectBtn" style="padding:10px 20px; border:none; border-radius:8px; background:#3b82f6; color:white;">اتصال به کیف پول</button>
+  
+  <div id="walletInfo" style="display:none; margin-top:20px;">
+    <p>✅ کیف پول متصل شد</p>
     <p id="walletAddress"></p>
 
-    <input id="amount" type="number" placeholder="مقدار TON" style="margin:10px; padding:5px; width:120px;">
-    <button id="sendBtn" style="padding:10px 20px; border:none; border-radius:10px; background:#10b981; color:white;">ارسال TON</button>
+    <input id="amount" type="number" placeholder="مقدار TON" style="padding:5px; width:120px;">
+    <button id="sendBtn" style="padding:10px 20px; border:none; border-radius:8px; background:#10b981; color:white;">ارسال TON</button>
   </div>
 
   <script>
-    alert("✅ صفحه لود شد، در حال بررسی SDK...");
+    alert("📦 شروع تست...");
 
-    // بررسی لود شدن SDK
+    // بررسی وجود SDK
     if (typeof TON_CONNECT_SDK === "undefined") {
-      alert("❌ TonConnect SDK لود نشد!");
+      alert("❌ TonConnect SDK لود نشد! بررسی اینترنت یا لینک jsDelivr");
     } else {
       alert("✅ TonConnect SDK با موفقیت لود شد!");
 
@@ -37,11 +37,11 @@
       const walletAddressEl = document.getElementById("walletAddress");
 
       connectBtn.onclick = async () => {
+        alert("⏳ در حال اتصال...");
         try {
-          alert("📡 در حال اتصال به کیف پول...");
           await tonConnect.connectWallet();
           const wallet = tonConnect.wallet;
-          alert("✅ کیف پول متصل شد: " + wallet.account.address);
+          alert("✅ اتصال موفق!\nآدرس: " + wallet.account.address);
           walletInfo.style.display = "block";
           walletAddressEl.textContent = "آدرس: " + wallet.account.address;
         } catch (err) {
@@ -50,14 +50,14 @@
       };
 
       sendBtn.onclick = async () => {
-        const amount = document.getElementById("amount").value;
+        const amount = parseFloat(document.getElementById("amount").value);
         if (!amount || isNaN(amount)) {
           alert("⚠️ لطفاً مقدار معتبر وارد کنید!");
           return;
         }
 
         const toAddress = "UQABfJXpm1D0Qm6pPutSjbEHVAWFzqvKv4BRSoFdA-5_En8Q";
-        alert(`🚀 آماده ارسال ${amount} TON به:\n${toAddress}`);
+        alert(`🚀 در حال ارسال ${amount} TON به:\n${toAddress}`);
 
         try {
           await tonConnect.sendTransaction({
@@ -67,7 +67,7 @@
               amount: (amount * 1e9).toString()
             }]
           });
-          alert("✅ تراکنش با موفقیت ارسال شد!");
+          alert("✅ تراکنش ارسال شد!");
         } catch (err) {
           alert("❌ خطا در ارسال: " + err.message);
         }
