@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Ton Connect Test</title>
-
-<script src="tonconnect-sdk.min.js"></script> <!-- ← از خودت -->
+  <meta charset="UTF-8">
+  <title>TON Wallet Tools</title>
 </head>
-
 <body>
-<button id="connectBtn">اتصال کیف پول</button>
+
+<h3>✅ بررسی موجودی + انتقال TON</h3>
+
+<label>آدرس کیف پول TonKeeper:</label><br>
+<input id="address" placeholder="EQ...." style="width:300px"><br><br>
+
+<button onclick="checkBalance()">دریافت موجودی</button>
+<p id="balance"></p>
+
+<hr>
+
+<label>میزان TON برای انتقال:</label><br>
+<input id="amount" placeholder="مثال: 0.5"><br><br>
+
+<label>آدرس مقصد:</label><br>
+<input id="to" placeholder="EQ...." style="width:300px"><br><br>
+
+<button onclick="send()">ارسال TON</button>
 
 <script>
-alert("✅ صفحه لود شد");
+async function checkBalance() {
+    let addr = document.getElementById("address").value;
+    if (!addr) return alert("آدرس وارد نشده!");
 
-const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
-
-let tonConnect;
-
-window.onload = () => {
-    try {
-        tonConnect = new TonConnect({ manifestUrl });
-        alert("✅ TonConnect init شد");
-    } catch (e) {
-        alert("❌ init error: " + e);
+    let url = `https://toncenter.com/api/v2/getAddressBalance?address=${addr}`;
+    let data = await fetch(url).then(r=>r.json());
+    
+    if (data.ok) {
+        let nano = Number(data.result);
+        let ton = nano / 1e9;
+        document.getElementById("balance").innerText = "موجودی: " + ton + " TON";
+    } else {
+        alert("خطا در دریافت موجودی");
     }
-};
+}
 
-document.getElementById("connectBtn").onclick = async () => {
+function send() {
+    let to = document.getElementById("to").value;
+    let amount = document.getElementById("amount").value;
+    
+    if (!to || !amount) return alert("آدرس یا مبلغ وارد نشده!");
+    
+    let nano = Math.floor(amount * 1e9);
 
-    alert("🔄 شروع اتصال");
-
-    try {
-        const wallets = await tonConnect.getWallets();
-        alert("✅ ولت‌ها: " + wallets.length);
-
-        if (!wallets.length) {
-            alert("⚠ ولتی پیدا نشد");
-            return;
-        }
-
-        const w = wallets[0];
-        alert(`📌 اتصال به: ${w.name}`);
-
-        await tonConnect.connect({
-            universalLink: w.universalLink,
-            bridgeUrl: w.bridgeUrl
-        });
-
-        alert("✅ اتصال موفق");
-
-    } catch (err) {
-        alert("❌ خطا در اتصال: " + err);
-    }
-};
+    let link = `ton://transfer/${to}?amount=${nano}`;
+    
+    window.location.href = link;
+}
 </script>
 
 </body>
