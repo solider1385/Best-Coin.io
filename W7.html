@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>TON Wallet Tools</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
@@ -24,34 +25,47 @@
 
 <button onclick="send()">ارسال TON</button>
 
+
 <script>
+// دریافت موجودی
 async function checkBalance() {
     let addr = document.getElementById("address").value;
     if (!addr) return alert("آدرس وارد نشده!");
 
-    let url = `https://toncenter.com/api/v2/getAddressBalance?address=${addr}`;
-    let data = await fetch(url).then(r=>r.json());
-    
-    if (data.ok) {
-        let nano = Number(data.result);
-        let ton = nano / 1e9;
-        document.getElementById("balance").innerText = "موجودی: " + ton + " TON";
-    } else {
-        alert("خطا در دریافت موجودی");
+    try {
+        let url = `https://toncenter.com/api/v2/getAddressBalance?address=${addr}`;
+        let data = await fetch(url).then(r=>r.json());
+        
+        if (data.ok) {
+            let nano = Number(data.result);
+            let ton = nano / 1e9;
+            document.getElementById("balance").innerText = "موجودی: " + ton + " TON";
+        } else {
+            alert("خطا در دریافت موجودی");
+        }
+
+    } catch(e){
+        alert("Error");
     }
 }
 
+
+// ارسال TON
 function send() {
     let to = document.getElementById("to").value;
     let amount = document.getElementById("amount").value;
     
     if (!to || !amount) return alert("آدرس یا مبلغ وارد نشده!");
-    
+
     let nano = Math.floor(amount * 1e9);
 
     let link = `ton://transfer/${to}?amount=${nano}`;
-    
-    window.location.href = link;
+
+    if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.openLink(link);
+    } else {
+        window.location.href = link;
+    }
 }
 </script>
 
