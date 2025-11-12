@@ -1,72 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>TON Wallet Tools</title>
+  <title>TON Connect Test</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      padding: 10px;
+    }
+    button {
+      padding: 8px 15px;
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
 
-<h3>✅ بررسی موجودی + انتقال TON</h3>
+<h2>اتصال کیف پول Tonkeeper</h2>
 
-<label>آدرس کیف پول TonKeeper:</label><br>
-<input id="address" placeholder="EQ...." style="width:300px"><br><br>
-
-<button onclick="checkBalance()">دریافت موجودی</button>
-<p id="balance"></p>
-
-<hr>
-
-<label>میزان TON برای انتقال:</label><br>
-<input id="amount" placeholder="مثال: 0.5"><br><br>
-
-<label>آدرس مقصد:</label><br>
-<input id="to" placeholder="EQ...." style="width:300px"><br><br>
-
-<button onclick="send()">ارسال TON</button>
+<button id="connectBtn">اتصال</button>
+<br>
+<p id="wallet">آدرس کیف پول: -</p>
+<p id="balance">موجودی: -</p>
 
 
-<script>
-// دریافت موجودی
-async function checkBalance() {
-    let addr = document.getElementById("address").value;
-    if (!addr) return alert("آدرس وارد نشده!");
+<script type="module">
+import { TonConnect } from "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js";
 
+const manifestUrl = "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json";
+
+let connector;
+
+try {
+    connector = new TonConnect({ manifestUrl });
+} catch(err) {
+    alert("خطا در ساخت TonConnect: " + err);
+}
+
+document.getElementById("connectBtn").onclick = async () => {
     try {
-        let url = `https://toncenter.com/api/v2/getAddressBalance?address=${addr}`;
-        let data = await fetch(url).then(r=>r.json());
-        
-        if (data.ok) {
-            let nano = Number(data.result);
-            let ton = nano / 1e9;
-            document.getElementById("balance").innerText = "موجودی: " + ton + " TON";
-        } else {
-            alert("خطا در دریافت موجودی");
+        const wallets = await connector.getWallets();
+        if (!wallets || wallets.length === 0) {
+            alert("هیچ کیف پولی یافت نشد!");
+            return;
         }
 
-    } catch(e){
-        alert("Error");
+        const wallet = wallets[0];    // Tonkeeper
+
+        await connector.connect({
+            universalLink: wallet.universalLink,
+            bridgeUrl: wallet.bridgeUrl
+        });
+
+        alert("✅ متصل شد!");
+
+    } catch(err) {
+        alert("❌ خطا در اتصال: " + err);
     }
-}
+};
 
+/* بروزرسانی UI هنگام اتصال */
+connector.onStatusChange(async (walletInfo) => {
+    if (!walletInfo) return;
 
-// ارسال TON
-function send() {
-    let to = document.getElementById("to").value;
-    let amount = document.getElementById("amount").value;
-    
-    if (!to || !amount) return alert("آدرس یا مبلغ وارد نشده!");
+    const address = walletInfo.account.address;
+    document.getElementById("wallet").textContent = "آدرس: " + address;
 
-    let nano = Math.floor(amount * 1e9);
+    try {
+        // دریافت موجودی
+        let res = await fetch(`https://toncenter.com/api/v2/getAddressBalance?address=${address}`);
+        let data = await res.json();
+        let nano = Number(data.result);
+        let ton = nano / 1e9;
 
-    let link = `ton://transfer/${to}?amount=${nano}`;
+        document.getElementById("balance").textContent = "موجودی: " + ton + " TON";
 
-    if (window.Telegram && Telegram.WebApp) {
-        Telegram.WebApp.openLink(link);
-    } else {
-        window.location.href = link;
+    } catch(err) {
+        document.getElementById("balance").textContent = "خطا!";
     }
-}
+});
 </script>
 
 </body>
