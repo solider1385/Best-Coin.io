@@ -1,71 +1,37 @@
 <!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>FreePay TON Payment</title>
-  <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
-</head>
-<body style="font-family: sans-serif; text-align:center; margin-top:50px;">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>TON Wallet Connect Test</title>
+    <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
+  </head>
+  <body style="font-family:sans-serif;text-align:center;margin-top:60px;">
 
-  <h2>💎 اتصال کیف پول TON</h2>
-  <button id="connect-btn">اتصال Tonkeeper</button>
-  <p id="wallet-address"></p>
+    <button id="connect">اتصال به کیف پول</button>
 
-  <div id="transfer-box" style="display:none;">
-    <h3>ارسال TON</h3>
-    <input id="amount" type="number" placeholder="مقدار TON" step="0.1" style="padding:5px;">
-    <button id="send-btn">ارسال</button>
-  </div>
+    <script>
+      alert("✅ صفحه لود شد!");
 
-  <script>
-    const tonConnect = new TON_CONNECT.TonConnect({
-      manifestUrl: "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json"
-    });
-
-    const connectBtn = document.getElementById("connect-btn");
-    const walletAddress = document.getElementById("wallet-address");
-    const transferBox = document.getElementById("transfer-box");
-    const sendBtn = document.getElementById("send-btn");
-
-    async function connectWallet() {
-      try {
-        alert("در حال اتصال به Tonkeeper...");
-        const connectedWallet = await tonConnect.connectWallet();
-        alert("اتصال موفق!");
-
-        walletAddress.innerText = "کیف پول متصل شد: " + connectedWallet.account.address;
-        transferBox.style.display = "block";
-      } catch (error) {
-        alert("خطا در اتصال: " + error.message);
+      // چک کنیم TonConnect وجود داره
+      if (typeof TON_CONNECT === "undefined") {
+        alert("❌ TonConnect SDK لود نشده!");
+      } else {
+        alert("✅ TonConnect SDK پیدا شد!");
       }
-    }
 
-    async function sendTON() {
-      try {
-        const amount = document.getElementById("amount").value;
-        if (!amount) return alert("لطفاً مقدار را وارد کنید!");
+      document.getElementById("connect").onclick = async () => {
+        try {
+          alert("در حال تلاش برای اتصال...");
+          const tonConnect = new TON_CONNECT.TonConnect({
+            manifestUrl: "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json"
+          });
 
-        const tx = {
-          validUntil: Math.floor(Date.now() / 1000) + 600, // معتبر تا 10 دقیقه
-          messages: [
-            {
-              address: "UQABfJXpm1D0Qm6pPutSjbEHVAWFzqvKv4BRSoFdA-5_En8Q", // آدرس دریافت‌کننده
-              amount: (parseFloat(amount) * 1e9).toString() // تبدیل به nanotons
-            }
-          ]
-        };
-
-        alert("در حال باز کردن Tonkeeper...");
-        await tonConnect.sendTransaction(tx);
-        alert("درخواست ارسال شد! لطفاً در Tonkeeper تأیید کنید.");
-      } catch (error) {
-        alert("خطا در ارسال تراکنش: " + error.message);
-      }
-    }
-
-    connectBtn.onclick = connectWallet;
-    sendBtn.onclick = sendTON;
-  </script>
-
-</body>
+          await tonConnect.connect();
+          alert("✅ کیف پول وصل شد!");
+        } catch (err) {
+          alert("❌ خطا: " + err.message);
+        }
+      };
+    </script>
+  </body>
 </html>
