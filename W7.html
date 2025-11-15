@@ -2,33 +2,13 @@
 <html lang="fa">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>TON Connect Easy Mode</title>
-
-  <!-- TonConnect UI (از CDN مستقیم) -->
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-
+  <title>Test Page</title>
 </head>
-<body style="text-align:center;font-family:sans-serif;padding:40px;">
-
-  <h2>اتصال آسان به کیف‌پول TON</h2>
-
-  <!-- دکمه آماده -->
-  <div id="ton-connect"></div>
+<body>
+  <h2>TEST PAGE</h2>
 
   <script>
-    // نمونه UI
-    const connector = new TON_CONNECT_UI.TonConnectUI({
-      buttonRootId: 'ton-connect',   // دکمه آماده می‌سازد
-      manifestUrl: ''                // خالی = بدون manifest
-    });
-
-    // وقتی کیف پول وصل شد
-    connector.onStatusChange(wallet => {
-      if (wallet) {
-        alert("وصل شد!\nآدرس: " + wallet.account.address);
-      }
-    });
+    alert("JS اجرا شد!");
   </script>
 
 </body>
