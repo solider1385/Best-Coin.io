@@ -1,44 +1,55 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="utf-8">
-  <title>TON Test</title>
+  <meta charset="UTF-8">
+  <title>TON Connect Web</title>
+  <!-- لود SDK TON Connect UI از CDN -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 </head>
-<body>
+<body style="font-family: sans-serif; text-align: center; padding: 40px;">
 
-<h2>تست TON UMD</h2>
+  <!-- مکانی برای دکمه اتصال -->
+  <div id="ton-connect"></div>
+  
+  <p id="status">وضعیت: هنوز متصل نشده</p>
 
-<button id="btnTest">تست UMD</button>
+  <script>
+    // مقداردهی TonConnectUI بر اساس راهنمای رسمی
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json",
+      buttonRootId: "ton-connect"
+    });
 
-<script>
-alert("JS اجرا شد — مرحله 1 OK");
+    // وقتی وضعیت اتصال تغییر کرد
+    tonConnectUI.onStatusChange((wallet) => {
+      if (wallet) {
+        document.getElementById("status").innerText =
+          "متصل شد! آدرس: " + wallet.account.address;
+      } else {
+        document.getElementById("status").innerText =
+          "قطع شد یا متصل نیست";
+      }
+    });
 
-// نسخه UMD
-const s = document.createElement("script");
-s.src = "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.umd.min.js";
-
-s.onload = () => {
-    alert("UMD SDK لود شد!");
-};
-
-s.onerror = () => {
-    alert("❌ خطا در لود UMD");
-};
-
-document.head.appendChild(s);
-
-
-// تست وجود SDK
-document.getElementById("btnTest").onclick = () => {
-    alert("دکمه کلیک شد!");
-
-    if (window.TON_CONNECT) {
-        alert("🎉 UMD پیدا شد! آماده ادامه دادنیم.");
-    } else {
-        alert("❌ UMD وجود ندارد!");
+    // برای تست، می‌تونی از این طریق مودال اتصال رو باز کنی
+    async function openWalletModal() {
+      try {
+        await tonConnectUI.openModal();
+      } catch (e) {
+        console.error("خطا در باز کردن مودال:", e);
+        document.getElementById("status").innerText = "خطا در اتصال";
+      }
     }
-};
-</script>
+
+    // اگر خواستی دکمه سفارشی بسازی:
+    // let btn = document.createElement("button");
+    // btn.textContent = "اتصال کیف پول";
+    // btn.onclick = openWalletModal;
+    // document.body.append(btn);
+
+    // این قسمت اجباری نیست چون دکمه توسط UI خود SDK ساخته می‌شود
+
+  </script>
 
 </body>
 </html>
