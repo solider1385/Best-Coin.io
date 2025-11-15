@@ -2,14 +2,40 @@
 <html lang="fa">
 <head>
   <meta charset="utf-8">
-  <title>Test Page</title>
+  <title>TON Test</title>
 </head>
 <body>
-  <h2>TEST PAGE</h2>
 
-  <script>
-    alert("JS اجرا شد!");
-  </script>
+<h2>تست لود شدن TON SDK</h2>
+
+<button id="btnTest">تست TON</button>
+
+<script>
+alert("JS اجرا شد! مرحله 1 OK");   // مرحله ۱
+
+// مرحله ۲: تلاش برای لود کردن SDK
+const script = document.createElement("script");
+script.src = "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js";
+script.onload = () => {
+    alert("TON SDK با موفقیت لود شد!");
+};
+script.onerror = () => {
+    alert("❌ خطا: TON SDK لود نشد!");
+};
+document.head.appendChild(script);
+
+
+// مرحله ۳: تست وجود کتابخانه بعد از کلیک
+document.getElementById("btnTest").onclick = () => {
+    alert("دکمه کلیک شد!");
+
+    if (window.TonConnect) {
+        alert("TonConnect موجوده! می‌تونیم ادامه بدیم.");
+    } else {
+        alert("❌ TonConnect وجود نداره.");
+    }
+};
+</script>
 
 </body>
 </html>
