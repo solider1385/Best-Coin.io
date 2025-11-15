@@ -6,33 +6,36 @@
 </head>
 <body>
 
-<h2>تست لود شدن TON SDK</h2>
+<h2>تست TON UMD</h2>
 
-<button id="btnTest">تست TON</button>
+<button id="btnTest">تست UMD</button>
 
 <script>
-alert("JS اجرا شد! مرحله 1 OK");   // مرحله ۱
+alert("JS اجرا شد — مرحله 1 OK");
 
-// مرحله ۲: تلاش برای لود کردن SDK
-const script = document.createElement("script");
-script.src = "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js";
-script.onload = () => {
-    alert("TON SDK با موفقیت لود شد!");
+// نسخه UMD
+const s = document.createElement("script");
+s.src = "https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.umd.min.js";
+
+s.onload = () => {
+    alert("UMD SDK لود شد!");
 };
-script.onerror = () => {
-    alert("❌ خطا: TON SDK لود نشد!");
+
+s.onerror = () => {
+    alert("❌ خطا در لود UMD");
 };
-document.head.appendChild(script);
+
+document.head.appendChild(s);
 
 
-// مرحله ۳: تست وجود کتابخانه بعد از کلیک
+// تست وجود SDK
 document.getElementById("btnTest").onclick = () => {
     alert("دکمه کلیک شد!");
 
-    if (window.TonConnect) {
-        alert("TonConnect موجوده! می‌تونیم ادامه بدیم.");
+    if (window.TON_CONNECT) {
+        alert("🎉 UMD پیدا شد! آماده ادامه دادنیم.");
     } else {
-        alert("❌ TonConnect وجود نداره.");
+        alert("❌ UMD وجود ندارد!");
     }
 };
 </script>
