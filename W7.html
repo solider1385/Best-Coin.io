@@ -1,53 +1,92 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>TON Connect Web</title>
-  <!-- لود SDK TON Connect UI از CDN -->
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-</head>
-<body style="font-family: sans-serif; text-align: center; padding: 40px;">
+  <title>TON Transfer</title>
 
-  <!-- مکانی برای دکمه اتصال -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+
+  <style>
+    body{
+      font-family: sans-serif;
+      padding: 30px;
+      text-align:center;
+    }
+    input{
+      padding:8px;
+      font-size:16px;
+      margin:5px;
+      width: 260px;
+    }
+    button{
+      padding:10px 20px;
+      font-size:16px;
+      margin-top:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- دکمه اتصال کیف پول -->
   <div id="ton-connect"></div>
-  
-  <p id="status">وضعیت: هنوز متصل نشده</p>
+
+  <h3>ارسال TON</h3>
+
+  <input id="address" placeholder="آدرس گیرنده" /><br>
+  <input id="amount" placeholder="مقدار TON" /><br>
+
+  <button onclick="sendTon()">ارسال TON</button>
+
+  <p id="status">وضعیت: متصل نیست</p>
 
   <script>
-    // مقداردهی TonConnectUI بر اساس راهنمای رسمی
+
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
       manifestUrl: "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json",
       buttonRootId: "ton-connect"
     });
 
-    // وقتی وضعیت اتصال تغییر کرد
-    tonConnectUI.onStatusChange((wallet) => {
-      if (wallet) {
+    tonConnectUI.onStatusChange((wallet)=>{
+      if(wallet){
         document.getElementById("status").innerText =
           "متصل شد! آدرس: " + wallet.account.address;
       } else {
-        document.getElementById("status").innerText =
-          "قطع شد یا متصل نیست";
+        document.getElementById("status").innerText = "متصل نیست";
       }
     });
 
-    // برای تست، می‌تونی از این طریق مودال اتصال رو باز کنی
-    async function openWalletModal() {
-      try {
-        await tonConnectUI.openModal();
-      } catch (e) {
-        console.error("خطا در باز کردن مودال:", e);
-        document.getElementById("status").innerText = "خطا در اتصال";
+    async function sendTon(){
+
+      const toAddress = document.getElementById("address").value.trim();
+      const amountTon = document.getElementById("amount").value.trim();
+
+      if(!toAddress || !amountTon){
+        alert("لطفاً آدرس و مقدار را وارد کن");
+        return;
+      }
+
+      const nanoTon = Math.floor(Number(amountTon) * 1e9);
+
+      const tx = {
+        validUntil: Math.floor(Date.now() / 1000) + 300, // ۵ دقیقه
+        messages: [
+          {
+            address: toAddress,
+            amount: nanoTon.toString()
+          }
+        ]
+      };
+
+      try{
+        const res = await tonConnectUI.sendTransaction(tx);
+        alert("تراکنش ارسال شد!");
+        console.log(res);
+      }catch(e){
+        alert("خطا در ارسال تراکنش: " + e.message);
+        console.error(e);
       }
     }
-
-    // اگر خواستی دکمه سفارشی بسازی:
-    // let btn = document.createElement("button");
-    // btn.textContent = "اتصال کیف پول";
-    // btn.onclick = openWalletModal;
-    // document.body.append(btn);
-
-    // این قسمت اجباری نیست چون دکمه توسط UI خود SDK ساخته می‌شود
 
   </script>
 
