@@ -13,7 +13,7 @@
         adexiumWidget.autoMode();
     });
 </script>
-  <script async src="https://partner.adextra.io/jt/41a51af0e1f2d1999923dfa5ed0702ee1e629a8e.js"></script>
+  <script async src="https://partner.adextra.io/jt/41a51af0e1f2d1999923dfa5ed0702ee1e629a8e.js"></script
   <style>
     body{
       margin:0;
@@ -43,6 +43,7 @@
 
   <div id="41a51af0e1f2d1999923dfa5ed0702ee1e629a8e" style="display:none"></div>
 
+    
   <button id="showAdBtn">نمایش تبلیغ</button>
 
   <script>
@@ -55,8 +56,32 @@
 
     document.getElementById('showAdBtn').addEventListener('click', () => {
       p_adextra(onSuccess, onError);
-      const adexiumWidget = new AdexiumWidget({wid: 'b5c706cf-3c27-4cf4-b83d-203870755dd5', adFormat: 'push-like'});
-        adexiumWidget.autoMode();
+
+
+      // widget initialization
+    const adexiumAds = new AdexiumWidget({
+        wid: '323af743-8933-41b7-ae16-3c9a848ed034',
+        adFormat: 'interstitial',
+        debug: true // remove this on production, use for test only
+    });
+    const button = document.getElementById('showAdBtn');
+    
+    // bind click event on button
+    button.onclick = () => {
+        // request ad
+        adexiumAds.requestAd('interstitial');
+    };
+    // subscribe on ad received event
+    adexiumAds.on('adReceived', (ad) => {
+        adexiumAds.displayAd(ad); // displaying ad
+    });
+
+    adexiumAds.on('noAdFound', () => {
+      alert("adexume not found ads")
+        // do something if ad is not found for user
+    });
+
+      
     });
   </script>
 
