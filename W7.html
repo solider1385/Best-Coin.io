@@ -42,21 +42,73 @@
 
   <script>
 
+    /* -------------------------------
+        مقداردهی TonConnect UI
+    --------------------------------*/
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
       manifestUrl: "https://solider1385.github.io/Best-Coin.io/tonconnect-manifest.json",
       buttonRootId: "ton-connect"
     });
 
+    let connectedWallet = null;
+
+    /* -------------------------------
+        تشخیص شبکه (Mainnet / Testnet)
+    --------------------------------*/
     tonConnectUI.onStatusChange((wallet)=>{
       if(wallet){
+        connectedWallet = wallet;
+        const chain = wallet.account.chain;
+
+        let chainName = "ناشناخته";
+
+        if(chain === "-239"){
+          chainName = "⚠ تست‌نت (Testnet)";
+          alert("شما روی Testnet هستید! تراکنش واقعی نخواهد بود.");
+        }
+        else if(chain === "0"){
+          chainName = "✔ شبکه اصلی (Mainnet)";
+        }
+
         document.getElementById("status").innerText =
-          "متصل شد! آدرس: " + wallet.account.address;
+          "متصل شد! آدرس: " + wallet.account.address + "\nشبکه: " + chainName;
+
       } else {
+        connectedWallet = null;
         document.getElementById("status").innerText = "متصل نیست";
       }
     });
 
+
+    /* -------------------------------------
+        چک وضعیت تراکنش در بلاکچین
+    -------------------------------------*/
+    async function checkTransactionStatus(address){
+      try{
+        const url = `https://tonapi.io/v2/blockchain/transactions?account=${address}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.transactions || data.transactions.length === 0)
+          return false;
+
+        return true; 
+      } catch(err){
+        console.error(err);
+        return false;
+      }
+    }
+
+
+    /* -------------------------------------
+        ارسال TON
+    -------------------------------------*/
     async function sendTon(){
+
+      if(!connectedWallet){
+        alert("اول کیف پول رو وصل کن 🙃");
+        return;
+      }
 
       const toAddress = document.getElementById("address").value.trim();
       const amountTon = document.getElementById("amount").value.trim();
@@ -69,7 +121,7 @@
       const nanoTon = Math.floor(Number(amountTon) * 1e9);
 
       const tx = {
-        validUntil: Math.floor(Date.now() / 1000) + 300, // ۵ دقیقه
+        validUntil: Math.floor(Date.now() / 1000) + 300,
         messages: [
           {
             address: toAddress,
@@ -79,11 +131,23 @@
       };
 
       try{
-        const res = await tonConnectUI.sendTransaction(tx);
-        alert("تراکنش ارسال شد!");
-        console.log(res);
+        const result = await tonConnectUI.sendTransaction(tx);
+
+        alert("⏳ تراکنش ارسال شد! منتظر تأیید می‌مانیم...");
+
+        setTimeout(async ()=>{
+          const ok = await checkTransactionStatus(connectedWallet.account.address);
+
+          if(ok){
+            alert("🎉 تراکنش با موفقیت در شبکه ثبت شد!");
+          }else{
+            alert("❌ تراکنش در بلاکچین پیدا نشد!");
+          }
+
+        }, 2500);
+
       }catch(e){
-        alert("خطا در ارسال تراکنش: " + e.message);
+        alert("❌ خطا در ارسال تراکنش: " + e.message);
         console.error(e);
       }
     }
