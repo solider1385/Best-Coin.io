@@ -57,7 +57,7 @@
       // widget initialization
     const adexiumAds = new AdexiumWidget({
         wid: '323af743-8933-41b7-ae16-3c9a848ed034',
-        adFormat: 'interstitial',
+        adFormat: 'push-like',
          // remove this on production, use for test only
     });
     const button = document.getElementById('showAdBtn');
@@ -65,7 +65,7 @@
     // bind click event on button
     button.onclick = () => {
         // request ad
-        adexiumAds.requestAd('interstitial');
+        adexiumAds.requestAd('push-like');
     };
     // subscribe on ad received event
     adexiumAds.on('adReceived', (ad) => {
