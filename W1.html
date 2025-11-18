@@ -43,11 +43,17 @@
     <script async src="https://partner.adextra.io/jt/41a51af0e1f2d1999923dfa5ed0702ee1e629a8e.js"></script>
  
   <script>
+    const adexiumAds = new AdexiumWidget({
+        wid: '323af743-8933-41b7-ae16-3c9a848ed034',
+        adFormat: 'push-like',
+         // remove this on production, use for test only
+    });
     const onError = () => {
-      alert('❌ خطا در نمایش تبلیغ');
+      alert('❌ Adextra');
+      adexiumAds.requestAd('push-like');
     }
     const onSuccess = () => {
-      alert('✅ تبلیغ با موفقیت نمایش داده شد');
+      alert('✅ Adextra');
     }
 
     document.getElementById('showAdBtn').addEventListener('click', () => {
@@ -55,18 +61,11 @@
 
 
       // widget initialization
-    const adexiumAds = new AdexiumWidget({
-        wid: '323af743-8933-41b7-ae16-3c9a848ed034',
-        adFormat: 'interstitial',
-         // remove this on production, use for test only
-    });
+    
     const button = document.getElementById('showAdBtn');
     
     // bind click event on button
-    button.onclick = () => {
-        // request ad
-        adexiumAds.requestAd('interstitial');
-    };
+    
     // subscribe on ad received event
     adexiumAds.on('adReceived', (ad) => {
         adexiumAds.displayAd(ad); // displaying ad
